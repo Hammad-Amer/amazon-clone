@@ -1,0 +1,286 @@
+"use client";
+
+import { Check, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Price } from "@/components/product/Price";
+import { Stars } from "@/components/product/Rating";
+import { ButtonLink } from "@/components/ui/Button";
+import { checkoutItems, itemCount, maxQtyFor, subtotal, type CartItem } from "@/lib/cart";
+import { cn } from "@/lib/cn";
+import { formatPrice } from "@/lib/format";
+import type { ProductSummary } from "@/lib/types";
+import { useAuth } from "@/store/auth";
+import { useCart } from "@/store/cart";
+import { useHydrated } from "@/store/StoreHydrator";
+import { CartSummary } from "./CartSummary";
+
+const actionCls = "text-xs text-amz-link hover:text-amz-link-hover hover:underline";
+
+function Checkbox({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
+  return (
+    <button
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+      className={cn(
+        "flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[3px] border",
+        checked ? "border-amz-link bg-amz-link text-white" : "border-[#888c8c] bg-white",
+      )}
+    >
+      {checked && <Check size={13} strokeWidth={3} />}
+    </button>
+  );
+}
+
+function QtyStepper({ item }: { item: CartItem }) {
+  const setQty = useCart((s) => s.setQty);
+  const max = maxQtyFor(item.product);
+  return (
+    <div className="flex h-8 items-center rounded-full border-[3px] border-amz-yellow">
+      <button
+        onClick={() => setQty(item.product.id, item.qty - 1)}
+        aria-label={item.qty === 1 ? "Delete" : "Decrease quantity"}
+        className="flex h-full w-8 items-center justify-center rounded-l-full hover:bg-gray-100"
+      >
+        {item.qty === 1 ? <Trash2 size={15} /> : <Minus size={15} />}
+      </button>
+      <span className="w-8 text-center text-sm font-bold" aria-live="polite">
+        {item.qty}
+      </span>
+      <button
+        onClick={() => setQty(item.product.id, item.qty + 1)}
+        disabled={item.qty >= max}
+        aria-label="Increase quantity"
+        className="flex h-full w-8 items-center justify-center rounded-r-full hover:bg-gray-100 disabled:opacity-40"
+      >
+        <Plus size={15} />
+      </button>
+    </div>
+  );
+}
+
+function ItemRow({ item }: { item: CartItem }) {
+  const { product: p } = item;
+  const remove = useCart((s) => s.remove);
+  const setSaved = useCart((s) => s.setSaved);
+  const toggleSelected = useCart((s) => s.toggleSelected);
+
+  return (
+    <li className="flex gap-3 border-b border-amz-border py-4 last:border-0">
+      {!item.saved && (
+        <div className="pt-12">
+          <Checkbox checked={item.selected} onChange={() => toggleSelected(p.id)} label={`Select ${p.title}`} />
+        </div>
+      )}
+      <Link href={`/dp/${p.id}`} className="relative h-28 w-28 shrink-0 bg-[#f7f8f8] sm:h-44 sm:w-44">
+        <Image src={p.thumbnail} alt={p.title} fill sizes="180px" className="object-contain p-2 mix-blend-multiply" />
+      </Link>
+      <div className="min-w-0 flex-1">
+        <div className="flex gap-3">
+          <Link href={`/dp/${p.id}`} className="line-clamp-2 flex-1 text-base leading-snug hover:text-amz-link-hover sm:text-lg">
+            {p.title}
+          </Link>
+          <Price amount={p.price} size="sm" className="hidden font-bold sm:inline-flex" />
+        </div>
+        <p className="mt-0.5 text-lg font-bold sm:hidden">{formatPrice(p.price)}</p>
+        <p className={cn("text-xs", p.stock > 10 ? "text-amz-green" : "text-amz-deal")}>
+          {p.stock > 10 ? "In Stock" : `Only ${p.stock} left in stock - order soon.`}
+        </p>
+        {p.fastDelivery && <p className="text-xs">FREE delivery available at checkout</p>}
+        {p.discountPercentage > 0 && (
+          <span className="mt-1 inline-block rounded-sm bg-amz-deal px-1.5 py-0.5 text-[11px] font-bold text-white">
+            {p.discountPercentage}% off
+          </span>
+        )}
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          {!item.saved && <QtyStepper item={item} />}
+          <span className="h-4 w-px bg-amz-border" />
+          <button className={actionCls} onClick={() => remove(p.id)}>
+            Delete
+          </button>
+          <span className="h-4 w-px bg-amz-border" />
+          {item.saved ? (
+            <button className={actionCls} onClick={() => setSaved(p.id, false)}>
+              Move to cart
+            </button>
+          ) : (
+            <button className={actionCls} onClick={() => setSaved(p.id, true)}>
+              Save for later
+            </button>
+          )}
+          <span className="h-4 w-px bg-amz-border" />
+          <Link className={actionCls} href={`/s?c=${p.category}`}>
+            Compare with similar items
+          </Link>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function AlsoBought({ ids }: { ids: number[] }) {
+  const [items, setItems] = useState<ProductSummary[]>([]);
+  const key = ids.slice(0, 5).join(",");
+  useEffect(() => {
+    if (!key) return;
+    fetch(`/api/recommendations?ids=${key}`)
+      .then((r) => r.json())
+      .then((xs: ProductSummary[]) => setItems(xs.slice(0, 4)))
+      .catch(() => {});
+  }, [key]);
+  if (!key || items.length === 0) return null;
+  return (
+    <div className="bg-white p-5">
+      <h2 className="text-base font-bold leading-snug">Customers who bought items in your cart also bought</h2>
+      <ul className="mt-3 space-y-4">
+        {items.map((p) => (
+          <li key={p.id} className="flex gap-3">
+            <Link href={`/dp/${p.id}`} className="relative h-20 w-20 shrink-0 bg-[#f7f8f8]">
+              <Image src={p.thumbnail} alt="" fill sizes="80px" className="object-contain mix-blend-multiply" />
+            </Link>
+            <div className="min-w-0 text-sm">
+              <Link href={`/dp/${p.id}`} className="line-clamp-2 text-amz-link hover:text-amz-link-hover hover:underline">
+                {p.title}
+              </Link>
+              <Stars rating={p.rating} size={13} />
+              <p className="font-bold text-amz-deal">{formatPrice(p.price)}</p>
+              <AddSmall product={p} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function AddSmall({ product }: { product: ProductSummary }) {
+  const add = useCart((s) => s.add);
+  return (
+    <button
+      onClick={() => add(product)}
+      className="mt-1 rounded-full bg-amz-yellow px-3 py-1 text-xs hover:bg-amz-yellow-hover"
+    >
+      Add to cart
+    </button>
+  );
+}
+
+export function CartView() {
+  const hydrated = useHydrated();
+  const items = useCart((s) => s.items);
+  const setAllSelected = useCart((s) => s.setAllSelected);
+  const user = useAuth((s) => s.user);
+  const active = items.filter((i) => !i.saved);
+  const saved = items.filter((i) => i.saved);
+  const allSelected = active.length > 0 && active.every((i) => i.selected);
+
+  if (!hydrated) {
+    return (
+      <div className="mx-auto grid max-w-[1500px] gap-5 px-3 py-5 md:px-5 lg:grid-cols-[1fr_300px]">
+        <div className="h-96 animate-pulse bg-white" />
+        <div className="h-40 animate-pulse bg-white" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto grid max-w-[1500px] gap-5 px-3 py-5 md:px-5 lg:grid-cols-[1fr_300px]">
+      <div className="space-y-5">
+        {/* Mobile: subtotal first so checkout is one tap away */}
+        {active.length > 0 && (
+          <div className="bg-white p-5 lg:hidden">
+            <CartSummary />
+          </div>
+        )}
+
+        <section className="bg-white px-5 pb-2 pt-5">
+          {active.length === 0 ? (
+            <EmptyCart signedIn={!!user} />
+          ) : (
+            <>
+              <h1 className="text-[28px] font-normal">Shopping Cart</h1>
+              <button className={actionCls + " text-sm"} onClick={() => setAllSelected(!allSelected)}>
+                {allSelected ? "Deselect all items" : "Select all items"}
+              </button>
+              <p className="hidden border-b border-amz-border pb-1 text-right text-sm text-amz-muted sm:block">Price</p>
+              <ul>
+                {active.map((i) => (
+                  <ItemRow key={i.product.id} item={i} />
+                ))}
+              </ul>
+              <div className="border-t border-amz-border py-3 text-right text-lg">
+                <InlineSubtotal />
+              </div>
+            </>
+          )}
+        </section>
+
+        <section className="bg-white p-5">
+          <h2 className="text-2xl font-bold">Saved for later ({saved.length} {saved.length === 1 ? "item" : "items"})</h2>
+          {saved.length === 0 ? (
+            <p className="mt-2 text-sm text-amz-muted">
+              Items you save for later will show up here. Use &quot;Save for later&quot; on any item in your cart.
+            </p>
+          ) : (
+            <ul className="mt-2">
+              {saved.map((i) => (
+                <ItemRow key={i.product.id} item={i} />
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <p className="px-1 text-xs text-amz-muted">
+          The price and availability of items at amazon.clone are subject to change. The Cart is a temporary place to store a list of your items and reflects each item&apos;s most recent price.
+        </p>
+      </div>
+
+      <aside className="space-y-5">
+        {active.length > 0 && (
+          <div className="hidden bg-white p-5 lg:block">
+            <CartSummary />
+          </div>
+        )}
+        <AlsoBought ids={items.map((i) => i.product.id)} />
+      </aside>
+    </div>
+  );
+}
+
+function InlineSubtotal() {
+  const selected = checkoutItems(useCart((s) => s.items));
+  const count = itemCount(selected);
+  const total = subtotal(selected);
+  return (
+    <>
+      Subtotal ({count} {count === 1 ? "item" : "items"}): <b>{formatPrice(total)}</b>
+    </>
+  );
+}
+
+function EmptyCart({ signedIn }: { signedIn: boolean }) {
+  return (
+    <div className="flex flex-col items-center gap-6 py-6 sm:flex-row sm:items-start">
+      <div className="flex h-40 w-56 shrink-0 items-center justify-center rounded-lg bg-[#f7f8f8]">
+        <ShoppingCart size={84} strokeWidth={1} className="text-[#aab7b8]" />
+      </div>
+      <div>
+        <h1 className="text-2xl font-bold">Your amazon.clone Cart is empty</h1>
+        <Link href="/deals" className="text-sm text-amz-link hover:text-amz-link-hover hover:underline">
+          Shop today&apos;s deals
+        </Link>
+        {!signedIn && (
+          <div className="mt-4 flex flex-wrap gap-3">
+            <ButtonLink href="/signin?next=/cart">Sign in to your account</ButtonLink>
+            <ButtonLink href="/register" variant="outline">
+              Sign up now
+            </ButtonLink>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

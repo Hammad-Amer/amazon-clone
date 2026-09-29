@@ -2,9 +2,9 @@ import { cn } from "@/lib/cn";
 import { formatPrice, splitPrice } from "@/lib/format";
 
 const sizes = {
-  sm: { whole: "text-lg", small: "text-[11px] top-[-0.45em]" },
-  md: { whole: "text-[28px]", small: "text-[13px] top-[-0.75em]" },
-  lg: { whole: "text-[28px] md:text-[32px]", small: "text-sm top-[-0.9em]" },
+  sm: { whole: "text-lg", small: "text-[11px] mt-[0.2em]" },
+  md: { whole: "text-[28px]", small: "text-[13px] mt-[0.25em]" },
+  lg: { whole: "text-[28px] md:text-[32px]", small: "text-sm mt-[0.3em]" },
 };
 
 /** Amazon-style price: small superscript "$" and cents around a large whole-dollar amount. */
@@ -22,9 +22,9 @@ export function Price({
   return (
     <span className={cn("inline-flex items-start leading-none text-amz-text", className)}>
       <span className="sr-only">{formatPrice(amount)}</span>
-      <span aria-hidden className={cn("relative", s.small)}>$</span>
+      <span aria-hidden className={s.small}>$</span>
       <span aria-hidden className={cn("font-medium", s.whole)}>{whole}</span>
-      <span aria-hidden className={cn("relative", s.small)}>{fraction}</span>
+      <span aria-hidden className={s.small}>{fraction}</span>
     </span>
   );
 }
