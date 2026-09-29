@@ -10,8 +10,8 @@ export function FreeShippingNote({ amount }: { amount: number }) {
   if (amount === 0) return null;
   if (qualifiesForFreeShipping(amount)) {
     return (
-      <p className="flex gap-1.5 text-xs text-amz-green">
-        <CircleCheck size={18} className="shrink-0 fill-amz-green text-white" />
+      <p className="flex gap-1.5 rounded-xl bg-[#e8f6ec] p-2.5 text-xs text-[#1a7f37]">
+        <CircleCheck size={18} className="shrink-0 fill-[#1a7f37] text-white" />
         <span>
           Your order qualifies for FREE delivery.{" "}
           <span className="text-amz-muted">Choose this option at checkout.</span>
@@ -22,10 +22,10 @@ export function FreeShippingNote({ amount }: { amount: number }) {
   const remaining = FREE_SHIPPING_THRESHOLD - amount;
   return (
     <div className="text-xs">
-      <div className="mb-1.5 h-2 overflow-hidden rounded-full bg-[#e3e6e6]">
-        <div className="h-full bg-amz-green" style={{ width: `${(amount / FREE_SHIPPING_THRESHOLD) * 100}%` }} />
+      <div className="mb-1.5 h-2 overflow-hidden rounded-full bg-sky-tint">
+        <div className="h-full rounded-full bg-brand" style={{ width: `${(amount / FREE_SHIPPING_THRESHOLD) * 100}%` }} />
       </div>
-      Add <b className="text-amz-deal">{formatPrice(remaining)}</b> of eligible items to your order for FREE delivery.
+      Add <b className="text-brand">{formatPrice(remaining)}</b> of eligible items to your order for FREE delivery.
     </div>
   );
 }
@@ -51,6 +51,7 @@ export function CartSummary({ compact = false }: { compact?: boolean }) {
       </p>
       <ButtonLink
         href="/checkout"
+        variant="brand"
         className="w-full"
         aria-disabled={count === 0}
         onClick={(e) => count === 0 && e.preventDefault()}

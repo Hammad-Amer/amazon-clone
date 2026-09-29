@@ -92,10 +92,10 @@ export function ProductRow({
               )}
               {variant === "detail" && (
                 <div className="mt-2 space-y-0.5">
-                  <p className="line-clamp-2 text-sm text-amz-link hover:text-amz-link-hover">{p.title}</p>
+                  <p className={cn("line-clamp-2 text-sm", framed ? "text-amz-text hover:text-brand" : "text-amz-link hover:text-amz-link-hover")}>{p.title}</p>
                   <div className="flex items-center gap-1 text-xs">
                     <Stars rating={p.rating} size={14} />
-                    <span className="text-amz-link">{formatCount(p.ratingCount)}</span>
+                    <span className={framed ? "text-amz-muted" : "text-amz-link"}>{formatCount(p.ratingCount)}</span>
                   </div>
                   <Price amount={p.price} size="sm" />
                 </div>
