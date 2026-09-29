@@ -37,10 +37,10 @@ export function BuyBox({
   const freeDelivery = product.price >= FREE_SHIPPING_THRESHOLD || product.fastDelivery;
 
   return (
-    <div className="rounded-lg border border-amz-border p-4 text-sm">
+    <div className="rounded-2xl bg-white p-4 text-sm shadow-[0_4px_20px_rgba(11,36,71,0.10)] ring-1 ring-[#d6e4f5]">
       <Price amount={product.price} size="lg" />
       <p className="mt-3">
-        {freeDelivery ? "FREE delivery " : "$5.99 delivery "}
+        {freeDelivery ? <span className="font-bold text-[#1a7f37]">FREE delivery </span> : "$5.99 delivery "}
         <DeliveryDate days={product.fastDelivery ? 2 : 5} long />
         {!freeDelivery && <span className="text-amz-muted"> on orders under ${FREE_SHIPPING_THRESHOLD}</span>}
       </p>
@@ -52,7 +52,7 @@ export function BuyBox({
       )}
       <button
         onClick={() => openLocation(true)}
-        className="mt-2 flex items-center gap-1 text-xs text-amz-link hover:text-amz-link-hover hover:underline"
+        className="mt-2 flex items-center gap-1 text-xs font-medium text-brand hover:text-brand-hover hover:underline"
       >
         <MapPin size={14} /> Deliver to {locationLabel(location) ?? "Pakistan"}
       </button>
@@ -63,12 +63,12 @@ export function BuyBox({
 
       {inStock && (
         <>
-          <label className="mt-3 flex w-fit items-center gap-2 rounded-lg border border-amz-border bg-[#f0f2f2] px-3 py-1.5 shadow-sm">
+          <label className="mt-3 flex w-fit items-center gap-2 rounded-full bg-sky-tint px-3.5 py-1.5 ring-1 ring-[#bcd6f7]">
             <span>Quantity:</span>
             <select
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
-              className="bg-transparent outline-none"
+              className="bg-transparent font-bold text-brand outline-none"
               aria-label="Quantity"
             >
               {Array.from({ length: maxQtyFor(product) }, (_, i) => i + 1).map((n) => (
@@ -80,6 +80,7 @@ export function BuyBox({
           </label>
           <div className="mt-4 space-y-2">
             <Button
+              variant="brand"
               className="w-full"
               onClick={() => {
                 add(product, qty);
@@ -89,14 +90,14 @@ export function BuyBox({
               Add to cart
             </Button>
             <Button
-              variant="orange"
-              className="w-full"
+              variant="dark"
+              className="w-full font-medium"
               onClick={() => router.push(`/checkout?buy=${product.id}&qty=${qty}`)}
             >
               Buy Now
             </Button>
           </div>
-          <p className="mt-2 flex items-center gap-1.5 text-xs text-amz-link">
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-amz-muted">
             <Lock size={12} /> Secure transaction
           </p>
         </>
@@ -108,12 +109,12 @@ export function BuyBox({
         <dt className="text-amz-muted">Sold by</dt>
         <dd>{product.brand ?? "amazon.clone"}</dd>
         <dt className="text-amz-muted">Returns</dt>
-        <dd className="text-amz-link">{returnPolicy}</dd>
+        <dd className="text-brand">{returnPolicy}</dd>
         <dt className="text-amz-muted">Shipping</dt>
         <dd>{shippingInformation}</dd>
       </dl>
 
-      <hr className="my-4 border-amz-border" />
+      <hr className="my-4 border-[#e3ecf7]" />
       <Button
         variant="outline"
         className="w-full"

@@ -17,14 +17,14 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
       {/* Mobile */}
       <div className="md:hidden">
         <div
-          className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
+          className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto rounded-2xl"
           onScroll={(e) => {
             const el = e.currentTarget;
             setActive(Math.round(el.scrollLeft / el.clientWidth));
           }}
         >
           {images.map((src, i) => (
-            <div key={src} className="relative aspect-square w-full shrink-0 snap-center bg-[#f7f8f8]">
+            <div key={src} className="relative aspect-square w-full shrink-0 snap-center bg-sky">
               <Image src={src} alt={`${alt}, image ${i + 1}`} fill priority={i === 0} sizes="100vw" className="object-contain p-4 mix-blend-multiply" />
             </div>
           ))}
@@ -32,7 +32,7 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
         {images.length > 1 && (
           <div className="mt-2 flex justify-center gap-1.5">
             {images.map((src, i) => (
-              <span key={src} className={cn("h-2 w-2 rounded-full", i === active ? "bg-amz-link" : "bg-[#d5d9d9]")} />
+              <span key={src} className={cn("h-2 w-2 rounded-full transition-all", i === active ? "w-5 bg-brand" : "bg-[#c9d6e6]")} />
             ))}
           </div>
         )}
@@ -40,7 +40,7 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
 
       {/* Desktop */}
       <div className="hidden gap-3 md:flex">
-        <ul className="flex shrink-0 flex-col gap-2.5">
+        <ul className="flex shrink-0 flex-col gap-2.5 p-0.5">
           {images.map((src, i) => (
             <li key={src}>
               <button
@@ -50,8 +50,8 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
                 aria-label={`Show image ${i + 1}`}
                 aria-current={i === active}
                 className={cn(
-                  "relative block h-12 w-12 overflow-hidden rounded-lg border bg-[#f7f8f8]",
-                  i === active ? "border-amz-link shadow-[0_0_0_2px_rgba(0,113,133,0.4)]" : "border-[#a2a6ac] hover:border-amz-link",
+                  "relative block h-14 w-14 overflow-hidden rounded-xl bg-sky transition",
+                  i === active ? "ring-2 ring-brand" : "ring-1 ring-[#d6e4f5] hover:ring-brand"
                 )}
               >
                 <Image src={src} alt="" fill sizes="48px" className="object-contain p-0.5 mix-blend-multiply" />
@@ -60,7 +60,7 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
           ))}
         </ul>
         <div
-          className="relative aspect-square flex-1 cursor-zoom-in overflow-hidden bg-[#f7f8f8]"
+          className="relative aspect-square flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-sky"
           onMouseMove={(e) => {
             const r = e.currentTarget.getBoundingClientRect();
             setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });

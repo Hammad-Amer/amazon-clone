@@ -16,7 +16,7 @@ const ROWS: Row[] = [
     cell: (p) => (
       <span className="flex flex-wrap items-center gap-1">
         <Stars rating={p.rating} size={14} />
-        <span className="text-amz-link">({formatCount(p.ratingCount)})</span>
+        <span className="text-amz-muted">({formatCount(p.ratingCount)})</span>
       </span>
     ),
   },
@@ -47,7 +47,7 @@ const ROWS: Row[] = [
       ) : p.stock < 10 ? (
         <span className="text-amz-deal">Only {p.stock} left in stock</span>
       ) : (
-        <span className="text-amz-green">In Stock</span>
+        <span className="text-[#1a7f37]">In Stock</span>
       ),
   },
   { label: "Item Weight", cell: (p) => `${p.weight} ounces` },
@@ -61,7 +61,7 @@ export function CompareTable({ product, others }: { product: Product; others: Pr
 
   return (
     <section aria-labelledby="compare-heading">
-      <h2 id="compare-heading" className="mb-3 text-2xl font-bold">
+      <h2 id="compare-heading" className="mb-4 text-2xl font-extrabold tracking-tight">
         Compare with similar items
       </h2>
       {/* The table scrolls sideways on its own on small screens; `relative` keeps sr-only text inside it. */}
@@ -73,29 +73,29 @@ export function CompareTable({ product, others }: { product: Product; others: Pr
                 <span className="sr-only">Product</span>
               </th>
               {cols.map((p, i) => (
-                <th key={p.id} scope="col" className={cn("px-3 pb-3 text-left align-top font-normal", i === 0 && "bg-[#f0f8ff]")}>
-                  <span className={cn("mb-1 block text-xs font-bold", i === 0 ? "text-amz-text" : "invisible")}>This item</span>
+                <th key={p.id} scope="col" className={cn("px-3 pb-3 text-left align-top font-normal", i === 0 && "rounded-t-2xl bg-sky")}>
+                  <span className={cn("mb-1.5 inline-block rounded-full px-2 py-0.5 text-[11px] font-bold", i === 0 ? "bg-brand text-white" : "invisible")}>This item</span>
                   <Link href={`/dp/${p.id}`} className="group block">
-                    <span className="relative mx-auto block aspect-square w-full max-w-36 bg-[#f7f8f8]">
+                    <span className="relative mx-auto block aspect-square w-full max-w-36 overflow-hidden rounded-xl bg-sky-tint/60">
                       <Image src={p.thumbnail} alt="" fill sizes="144px" className="object-contain p-2 mix-blend-multiply" />
                     </span>
-                    <span className="mt-2 line-clamp-2 text-amz-link group-hover:text-amz-link-hover group-hover:underline">
+                    <span className="mt-2 line-clamp-2 font-medium text-amz-text group-hover:text-brand">
                       {p.title}
                     </span>
                   </Link>
-                  <AddToCartButton product={toSummary(p)} size="sm" className="mt-2" />
+                  <AddToCartButton product={toSummary(p)} size="sm" variant="brand" className="mt-2" />
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {ROWS.map((row) => (
-              <tr key={row.label} className="border-t border-amz-border">
+              <tr key={row.label} className="border-t border-[#e3ecf7]">
                 <th scope="row" className={th}>
                   {row.label}
                 </th>
                 {cols.map((p, i) => (
-                  <td key={p.id} className={cn("px-3 py-2.5 align-top", i === 0 && "bg-[#f0f8ff]")}>
+                  <td key={p.id} className={cn("px-3 py-2.5 align-top", i === 0 && "bg-sky")}>
                     {row.cell(p)}
                   </td>
                 ))}

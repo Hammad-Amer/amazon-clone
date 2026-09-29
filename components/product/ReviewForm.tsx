@@ -46,7 +46,7 @@ function StarPicker({ value, onChange, error }: { value: number; onChange: (n: n
                   (e.currentTarget.parentElement?.children[next - 1] as HTMLElement | undefined)?.focus();
                 }
               }}
-              className="rounded p-0.5 focus-visible:outline-2 focus-visible:outline-[#e77600]"
+              className="rounded p-0.5 focus-visible:outline-2 focus-visible:outline-brand"
             >
               <svg width={32} height={32} viewBox="0 0 24 24" aria-hidden>
                 <path
@@ -123,7 +123,7 @@ export function ReviewForm({
           aria-invalid={!!errors.body}
           aria-describedby="review-body-hint"
           className={cn(
-            "w-full rounded-[3px] border px-2 py-1.5 text-[13px] outline-none focus:border-[#e77600] focus:shadow-[0_0_3px_2px_rgba(228,121,17,0.5)]",
+            "w-full rounded-lg border px-2.5 py-2 text-[13px] outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]",
             errors.body ? "border-amz-deal" : "border-[#a6a6a6]",
           )}
         />
@@ -131,11 +131,11 @@ export function ReviewForm({
           {errors.body ?? (length < REVIEW_MIN_LENGTH ? `${REVIEW_MIN_LENGTH - length} more characters needed` : `${length} characters`)}
         </p>
       </div>
-      <div className="flex justify-end gap-2 border-t border-amz-border pt-4">
+      <div className="flex justify-end gap-2 border-t border-[#e3ecf7] pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit">{initial ? "Update review" : "Submit"}</Button>
+        <Button type="submit" variant="brand">{initial ? "Update review" : "Submit"}</Button>
       </div>
     </form>
   );

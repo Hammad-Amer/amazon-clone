@@ -53,7 +53,7 @@ export function LiveRating({ productId, rating, ratingCount }: { productId: numb
     <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
       <span>{stats.rating.toFixed(1)}</span>
       <Stars rating={stats.rating} />
-      <a href="#reviews" className="text-amz-link hover:text-amz-link-hover hover:underline">
+      <a href="#reviews" className="text-brand hover:text-brand-hover hover:underline">
         {formatCount(stats.count)} ratings
       </a>
     </div>
@@ -118,7 +118,7 @@ export function Reviews({
   return (
     <section id="reviews" className="grid scroll-mt-4 gap-8 md:grid-cols-[300px_1fr]">
       <div>
-        <h2 className="text-2xl font-bold">Customer reviews</h2>
+        <h2 className="text-2xl font-extrabold tracking-tight">Customer reviews</h2>
         <div className="mt-2 flex items-center gap-2">
           <Stars rating={stats.rating} size={20} />
           <span className="text-lg">{stats.rating.toFixed(1)} out of 5</span>
@@ -136,33 +136,33 @@ export function Reviews({
                       aria-pressed={active}
                       aria-label={`${pct}% of reviews have ${star} stars. ${active ? "Show all reviews" : `Show ${star} star reviews`}`}
                       className={cn(
-                        "group flex w-full items-center rounded py-1 text-left",
-                        active && "bg-[#f0f8ff] ring-1 ring-amz-link",
+                        "group flex w-full items-center rounded-lg py-1 text-left hover:bg-sky",
+                        active && "bg-sky-tint ring-1 ring-brand",
                       )}
                     >
-                      <span className="w-14 shrink-0 whitespace-nowrap pl-1 text-amz-link group-hover:underline">{star} star</span>
+                      <span className="w-14 shrink-0 whitespace-nowrap pl-1.5 font-medium text-brand">{star} star</span>
                       <span className="flex-1 px-3">
-                        <span className="block h-5 w-full overflow-hidden rounded border border-[#d5d9d9] bg-[#f0f2f2] shadow-inner group-hover:border-[#de7921]">
-                          <span className="block h-full bg-[#de7921]" style={{ width: `${pct}%` }} />
+                        <span className="block h-3 w-full overflow-hidden rounded-full bg-sky-tint">
+                          <span className="block h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
                         </span>
                       </span>
-                      <span className="w-10 shrink-0 pr-1 text-right text-amz-link">{pct}%</span>
+                      <span className="w-10 shrink-0 pr-1.5 text-right text-amz-muted">{pct}%</span>
                     </button>
                 </li>
               );
             })}
         </ul>
-        <hr className="my-6 border-amz-border" />
+        <hr className="my-6 border-[#e3ecf7]" />
         <h3 className="text-lg font-bold">Review this product</h3>
         <p className="mt-1 text-sm">Share your thoughts with other customers</p>
         {user ? (
-          <Button variant="outline" className="mt-3 w-full" onClick={() => setOpen(true)}>
+          <Button variant="brand" className="mt-3 w-full" onClick={() => setOpen(true)}>
             {own ? "Edit your review" : "Write a customer review"}
           </Button>
         ) : (
           <Link
             href={`/signin?next=${encodeURIComponent(`/dp/${productId}`)}`}
-            className="mt-3 block rounded-full border border-amz-border py-1.5 text-center text-sm shadow-sm hover:bg-gray-50"
+            className="mt-3 block rounded-full bg-brand py-2 text-center text-sm font-medium text-white hover:bg-brand-hover"
           >
             Write a customer review
           </Link>
@@ -170,11 +170,11 @@ export function Reviews({
       </div>
 
       <div>
-        <h3 className="text-lg font-bold">Top reviews from the United States</h3>
+        <h3 className="text-lg font-extrabold tracking-tight">Top reviews from the United States</h3>
         {starFilter && (
           <p className="mt-2 text-sm" role="status">
             Showing {shown.length} review{shown.length === 1 ? "" : "s"} with {starFilter} star{starFilter === 1 ? "" : "s"} ·{" "}
-            <button type="button" onClick={() => setStarFilter(null)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+            <button type="button" onClick={() => setStarFilter(null)} className="font-medium text-brand hover:text-brand-hover hover:underline">
               Clear filter
             </button>
           </p>
@@ -187,18 +187,18 @@ export function Reviews({
               const marked = !!helpful[e.key];
               const count = e.helpfulBase + (marked ? 1 : 0);
               return (
-                <li key={e.key} id={e.own ? `review-${e.own.id}` : undefined} className={cn(e.own && "scroll-mt-24 rounded-lg bg-[#f7fafa] p-3 ring-1 ring-amz-border")}>
+                <li key={e.key} id={e.own ? `review-${e.own.id}` : undefined} className={cn(e.own && "scroll-mt-24 rounded-2xl bg-sky p-4 ring-1 ring-[#bcd6f7]")}>
                   <div className="flex items-center gap-2 text-[13px]">
-                    <CircleUserRound size={30} strokeWidth={1.2} className="text-[#8d9096]" />
+                    <CircleUserRound size={30} strokeWidth={1.2} className="text-[#7b93b5]" />
                     {e.name}
-                    {e.own && <span className="rounded bg-amz-nav px-1.5 py-0.5 text-[11px] text-white">Your review</span>}
+                    {e.own && <span className="rounded-full bg-amz-nav px-2 py-0.5 text-[11px] font-bold text-white">Your review</span>}
                   </div>
                   <div className="mt-1 flex items-center gap-2">
                     <Stars rating={e.rating} size={16} />
                     <span className="text-sm font-bold">{e.title}</span>
                   </div>
                   <p className="mt-1 text-[13px] text-amz-muted">Reviewed in the United States on {formatDate(e.date)}</p>
-                  {e.verified && <p className="text-xs font-bold text-[#c45500]">Verified Purchase</p>}
+                  {e.verified && <p className="text-xs font-bold text-[#1a7f37]">✓ Verified Purchase</p>}
                   <p className="mt-1 whitespace-pre-line text-sm">{e.body}</p>
                   {count > 0 && (
                     <p className="mt-2 text-[13px] text-amz-muted">
@@ -208,21 +208,21 @@ export function Reviews({
                   <div className="mt-2 flex items-center gap-3 text-[13px]">
                     {e.own ? (
                       <>
-                        <button type="button" onClick={() => setOpen(true)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+                        <button type="button" onClick={() => setOpen(true)} className="font-medium text-brand hover:text-brand-hover hover:underline">
                           Edit
                         </button>
                         <span className="text-amz-border">|</span>
-                        <button type="button" onClick={() => deleteOwn(e.own!)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+                        <button type="button" onClick={() => deleteOwn(e.own!)} className="font-medium text-brand hover:text-brand-hover hover:underline">
                           Delete
                         </button>
                       </>
                     ) : marked ? (
-                      <span className="text-amz-green">✓ Thank you for your feedback.</span>
+                      <span className="text-[#1a7f37]">✓ Thank you for your feedback.</span>
                     ) : (
                       <button
                         type="button"
                         onClick={() => markHelpful(e.key)}
-                        className="rounded-full border border-amz-border px-5 py-1 shadow-sm hover:bg-gray-50"
+                        className="rounded-full px-5 py-1 ring-1 ring-[#bcd6f7] hover:bg-sky-tint hover:text-brand"
                       >
                         Helpful
                       </button>
