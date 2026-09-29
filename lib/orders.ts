@@ -52,3 +52,12 @@ export function newOrderId(): string {
     Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join("");
   return `112-${n(7)}-${n(7)}`;
 }
+
+/** Shipment progress step: 0 ordered, 1 shipped, 2 out for delivery, 3 delivered. */
+export function orderProgress(order: Pick<Order, "createdAt" | "deliveryBy">, now: Date): 0 | 1 | 2 | 3 {
+  const start = new Date(order.createdAt).getTime();
+  const end = new Date(order.deliveryBy).getTime();
+  if (now.getTime() >= end) return 3;
+  const elapsed = (now.getTime() - start) / (end - start);
+  return elapsed > 0.66 ? 2 : elapsed > 0.2 ? 1 : 0;
+}

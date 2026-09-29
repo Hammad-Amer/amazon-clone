@@ -52,12 +52,3 @@ export const useAuth = create<AuthState>()(
     { name: "amz-auth", skipHydration: true },
   ),
 );
-
-/** Creates the demo account if needed and signs in. Returns true if it was newly created. */
-export async function signInDemo(): Promise<boolean> {
-  const { signIn, register } = useAuth.getState();
-  const err = await signIn(DEMO_USER.email, DEMO_USER.password);
-  if (!err) return false;
-  await register(DEMO_USER.name, DEMO_USER.email, DEMO_USER.password);
-  return true;
-}

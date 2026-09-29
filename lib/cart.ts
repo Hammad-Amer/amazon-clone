@@ -37,9 +37,11 @@ export const activeItems = (items: CartItem[]) => items.filter((i) => !i.saved);
 /** Items that will go to checkout. */
 export const checkoutItems = (items: CartItem[]) => items.filter((i) => !i.saved && i.selected);
 
-export const itemCount = (items: CartItem[]) => items.reduce((n, i) => n + i.qty, 0);
+type Line = { product: { price: number }; qty: number };
 
-export const subtotal = (items: CartItem[]) =>
+export const itemCount = (items: Line[]) => items.reduce((n, i) => n + i.qty, 0);
+
+export const subtotal = (items: Line[]) =>
   Math.round(items.reduce((sum, i) => sum + i.product.price * i.qty, 0) * 100) / 100;
 
 export const qualifiesForFreeShipping = (amount: number) => amount >= FREE_SHIPPING_THRESHOLD;

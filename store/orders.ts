@@ -19,5 +19,6 @@ export const useOrders = create<OrdersState>()(
   ),
 );
 
+/** A user's orders, newest first. */
 export const ordersFor = (orders: Order[], email: string | undefined) =>
-  email ? orders.filter((o) => o.email === email) : [];
+  email ? orders.filter((o) => o.email === email).sort((a, b) => b.createdAt.localeCompare(a.createdAt)) : [];
