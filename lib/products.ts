@@ -81,3 +81,30 @@ export function getRelated(product: Product, limit = 12): Product[] {
     : [];
   return [...same, ...near].slice(0, limit);
 }
+
+/**
+ * Complementary picks for "Frequently bought together": cheaper add-ons from the other
+ * categories in the same department (phone -> accessories), one per category where possible.
+ */
+export function getBoughtTogether(product: Product, limit = 2): Product[] {
+  const dept = DEPARTMENTS.find((d) => d.categories.includes(product.category));
+  const others = dept ? getByCategories(dept.categories.filter((c) => c !== product.category), 100) : [];
+  const cheaper = others.filter((p) => p.price <= product.price);
+  const pool = [...cheaper, ...others, ...getByCategories([product.category], 20)].filter(
+    (p) => p.id !== product.id && p.stock > 0,
+  );
+
+  const picks: Product[] = [];
+  for (const p of cheaper) {
+    if (picks.length < limit && p.stock > 0 && !picks.some((x) => x.category === p.category)) picks.push(p);
+  }
+  for (const p of pool) {
+    if (picks.length < limit && !picks.some((x) => x.id === p.id)) picks.push(p);
+  }
+  return picks;
+}
+
+/** "Compare with similar items": the closest alternatives, same category first. */
+export function getCompareSet(product: Product, limit = 3): Product[] {
+  return getRelated(product, limit);
+}

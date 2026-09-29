@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductRow } from "@/components/home/ProductRow";
+import { BoughtTogether } from "@/components/product/BoughtTogether";
 import { BuyBox, RecordView } from "@/components/product/BuyBox";
+import { CompareTable } from "@/components/product/CompareTable";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ListPrice, Price } from "@/components/product/Price";
 import { Stars } from "@/components/product/Rating";
 import { Reviews } from "@/components/product/Reviews";
 import { categoryLabel, departmentOf } from "@/lib/departments";
 import { boughtLabel, formatCount } from "@/lib/format";
-import { getAllProducts, getProduct, getRelated, toSummary } from "@/lib/products";
+import { getAllProducts, getBoughtTogether, getCompareSet, getProduct, getRelated, toSummary } from "@/lib/products";
 import type { Product } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -43,6 +45,8 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
   const summary = toSummary(product);
   const dept = departmentOf(product.category);
   const related = getRelated(product, 16).map(toSummary);
+  const together = getBoughtTogether(product, 2).map(toSummary);
+  const compare = getCompareSet(product, 3);
   const bought = boughtLabel(product.boughtPastMonth);
 
   const specs: [string, string][] = [
@@ -174,9 +178,21 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
       </div>
 
       <div className="mx-auto max-w-[1500px] space-y-8 px-4 pb-10 md:px-6">
+        {together.length > 0 && product.stock > 0 && (
+          <>
+            <hr className="border-amz-border" />
+            <BoughtTogether products={[summary, ...together]} />
+          </>
+        )}
         <hr className="border-amz-border" />
         <ProductRow title="Products related to this item" variant="detail" products={related} />
         <hr className="border-amz-border" />
+        {compare.length >= 2 && (
+          <>
+            <CompareTable product={product} others={compare} />
+            <hr className="border-amz-border" />
+          </>
+        )}
         <section>
           <h2 className="mb-3 text-2xl font-bold">Product information</h2>
           <table className="w-full max-w-2xl border-t border-amz-border text-sm">
