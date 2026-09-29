@@ -44,7 +44,7 @@ const COLUMNS = [
 export function Footer() {
   return (
     <footer className="mt-auto">
-      <a href="#top" className="block bg-amz-backtop py-4 text-center text-[13px] text-white hover:bg-[#485769]">
+      <a href="#top" className="block bg-amz-backtop py-4 text-center text-[13px] text-white hover:bg-[#335799]">
         Back to top
       </a>
       <div className="bg-amz-footer px-6 py-10 text-white">

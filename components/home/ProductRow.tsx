@@ -9,6 +9,7 @@ import { Stars } from "@/components/product/Rating";
 import { formatCount } from "@/lib/format";
 import type { ProductSummary } from "@/lib/types";
 import { cn } from "@/lib/cn";
+import { homeCardCls } from "./Cards";
 
 /**
  * Horizontal product strip. Native scrolling (with snap) keeps touch/trackpad
@@ -40,11 +41,14 @@ export function ProductRow({
   };
 
   return (
-    <section className={cn("bg-white", framed ? "rounded-xl border border-[#e3e6e6] p-4 md:px-5" : "px-5 py-4")}>
+    <section className={framed ? homeCardCls : "bg-white px-5 py-4"}>
       <div className="mb-2 flex items-baseline gap-3">
         <h2 className={cn("text-[21px] leading-tight", framed ? "font-extrabold tracking-tight" : "font-bold")}>{title}</h2>
         {href && (
-          <Link href={href} className="text-[13px] text-amz-link hover:text-amz-link-hover hover:underline">
+          <Link
+            href={href}
+            className={cn("text-[13px] hover:underline", framed ? "font-medium text-brand hover:text-brand-hover" : "text-amz-link hover:text-amz-link-hover")}
+          >
             See all
           </Link>
         )}
@@ -59,11 +63,12 @@ export function ProductRow({
               className={variant === "image" ? "shrink-0 snap-start" : "w-[160px] shrink-0 snap-start md:w-[190px]"}
             >
               <div
-                className={
+                className={cn(
                   variant === "image"
-                    ? "relative h-[150px] w-[130px] overflow-hidden rounded-lg bg-[#f5f6f6] md:h-[200px] md:w-[170px]"
-                    : "relative aspect-square w-full overflow-hidden rounded-lg bg-[#f5f6f6]"
-                }
+                    ? "relative h-[150px] w-[130px] overflow-hidden rounded-lg md:h-[200px] md:w-[170px]"
+                    : "relative aspect-square w-full overflow-hidden rounded-lg",
+                  framed ? "rounded-xl bg-sky" : "bg-[#f5f6f6]",
+                )}
               >
                 <Image
                   src={p.thumbnail}

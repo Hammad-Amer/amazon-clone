@@ -1,8 +1,8 @@
 import { HeroCard, QuadCard, type QuadTile } from "@/components/home/Cards";
+import { CategoryBubbles } from "@/components/home/CategoryBubbles";
 import { HeroTiles, type HeroTile } from "@/components/home/HeroTiles";
 import { PersonalizedRows } from "@/components/home/PersonalizedRows";
 import { ProductRow } from "@/components/home/ProductRow";
-import { SignInCard } from "@/components/home/SignInCard";
 import { Price } from "@/components/product/Price";
 import { categoryLabel } from "@/lib/departments";
 import {
@@ -24,7 +24,7 @@ const HERO: HeroTile[] = [
   {
     title: "Tech that keeps up with you",
     href: "/s?c=electronics",
-    background: "#dce9f5",
+    background: "#d6e6fb",
     layout: "single",
     images: [img(123)],
   },
@@ -32,7 +32,7 @@ const HERO: HeroTile[] = [
     eyebrow: "Up to 30% off",
     title: "Today's top deals",
     href: "/deals",
-    background: "#d4213d",
+    background: "#19376d",
     dark: true,
     layout: "grid",
     images: getDeals(4).map(shot),
@@ -40,35 +40,35 @@ const HERO: HeroTile[] = [
   {
     title: "Shop all things beauty",
     href: "/s?c=beauty",
-    background: "#f9d9d2",
+    background: "#fde2e4",
     layout: "single",
     images: [img(7)],
   },
   {
     title: "Start looking sharp",
     href: "/s?c=fashion",
-    background: "#ebe1d6",
+    background: "#e4e0fb",
     layout: "single",
     images: [img(88)],
   },
   {
     title: "Kitchen must-haves",
     href: "/s?c=kitchen-accessories",
-    background: "#d9ece5",
+    background: "#d9f0f5",
     layout: "grid",
     images: getByCategories(["kitchen-accessories"], 4).map(shot),
   },
   {
     title: "Level up your PC setup",
     href: "/s?c=laptops",
-    background: "#ead9f2",
+    background: "#dde3f7",
     layout: "single",
     images: [img(78)],
   },
   {
     title: "Make home your happy place",
     href: "/s?c=home",
-    background: "#f4ead6",
+    background: "#e8eef9",
     layout: "single",
     images: [img(12)],
   },
@@ -76,7 +76,7 @@ const HERO: HeroTile[] = [
     eyebrow: "Great prices on essentials",
     title: "Everyday staples under $20",
     href: "/s?max=20&sort=bestselling",
-    background: "#f68b1f",
+    background: "#2f80ed",
     dark: true,
     layout: "grid",
     images: getUnderPrice(20, ["groceries", "skin-care"], 4).map(shot),
@@ -84,10 +84,25 @@ const HERO: HeroTile[] = [
   {
     title: "Game on. Gear up for less",
     href: "/s?c=sports",
-    background: "#fdeaa7",
+    background: "#d3effa",
     layout: "single",
     images: [img(140)],
   },
+];
+
+const BUBBLES = [
+  "smartphones",
+  "laptops",
+  "mobile-accessories",
+  "womens-dresses",
+  "mens-shoes",
+  "womens-watches",
+  "beauty",
+  "fragrances",
+  "furniture",
+  "kitchen-accessories",
+  "groceries",
+  "sports-accessories",
 ];
 
 /** A 2x2 tile per category, using that category's most popular product image. */
@@ -104,11 +119,15 @@ export default function HomePage() {
   const summaries = (xs: ReturnType<typeof getDeals>) => xs.map(toSummary);
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-[1500px] pt-3">
+    <div className="bg-sky" style={{ backgroundImage: "linear-gradient(to bottom, #d7e6fa, var(--color-sky) 420px)" }}>
+      <div className="mx-auto max-w-[1500px] pt-4">
         <HeroTiles tiles={HERO} />
 
-        <div className="space-y-5 px-2.5 pb-8 pt-5 md:px-5">
+        <div className="pt-6">
+          <CategoryBubbles categories={BUBBLES} />
+        </div>
+
+        <div className="space-y-5 px-2.5 pb-8 pt-6 md:px-5">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <QuadCard
               title="Plug in with our electronics"
@@ -125,7 +144,11 @@ export default function HomePage() {
               tiles={tiles(["furniture", "home-decoration", "kitchen-accessories", "groceries"])}
               moreHref="/s?c=home"
             />
-            <SignInCard />
+            <QuadCard
+              title="Gear up for the weekend"
+              tiles={tiles(["sports-accessories", "sunglasses", "mens-watches", "womens-bags"])}
+              moreHref="/s?c=sports"
+            />
           </div>
 
           <ProductRow

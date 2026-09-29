@@ -3,14 +3,14 @@
 @theme {
   --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
 
-  --color-amz-header: #131921;
-  --color-amz-nav: #232f3e;
-  --color-amz-footer: #232f3e;
-  --color-amz-footer-dark: #131a22;
-  --color-amz-backtop: #37475a;
+  --color-amz-header: #0b2447;
+  --color-amz-nav: #19376d;
+  --color-amz-footer: #19376d;
+  --color-amz-footer-dark: #0b2447;
+  --color-amz-backtop: #2a4a86;
   --color-amz-bg: #e3e6e6;
-  --color-amz-search: #febd69;
-  --color-amz-search-hover: #f3a847;
+  --color-amz-search: #7cc4ff;
+  --color-amz-search-hover: #5fb2f5;
   --color-amz-yellow: #ffd814;
   --color-amz-yellow-hover: #f7ca00;
   --color-amz-orange: #ffa41c;
@@ -24,6 +24,12 @@
   --color-amz-muted: #565959;
   --color-amz-border: #d5d9d9;
   --color-amz-focus: #007185;
+
+  /* Sky & Navy brand accents. */
+  --color-brand: #2f80ed;
+  --color-brand-hover: #1f6fd8;
+  --color-sky: #eef5fc;
+  --color-sky-tint: #e1edfb;
 
   --animate-slide-in: slide-in 0.25s ease-out;
   --animate-fade-in: fade-in 0.2s ease-out;

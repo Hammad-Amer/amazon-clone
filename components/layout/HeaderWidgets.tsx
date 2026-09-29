@@ -143,7 +143,7 @@ export function CartLink() {
           <circle cx="14" cy="26" r="2.4" fill="currentColor" />
           <circle cx="28" cy="26" r="2.4" fill="currentColor" />
         </svg>
-        <span className="absolute left-[15px] top-[-4px] w-5 text-center text-base font-bold text-[#f08804]">
+        <span className="absolute left-[15px] top-[-4px] w-5 text-center text-base font-bold text-amz-search">
           {count > 99 ? "99+" : count}
         </span>
       </span>

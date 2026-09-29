@@ -8,7 +8,7 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 ## Features
 
 **Browse & discover**
-- Homepage in the style of Amazon's current design: a scrolling row of promo tiles, soft rounded category cards, Today's Deals strip, best-seller rows
+- Our own "Sky & Navy" theme: navy header, sky-blue accents and a light sky homepage with a scrolling row of promo tiles, round shop-by-category bubbles, soft floating category cards, Today's Deals strip, best-seller rows
 - Personalized rows: _Keep shopping for_ (browsing history), _Buy it again_ (orders), _Inspired by your browsing history_
 - Header search with department selector, **live autocomplete** (keyboard navigation, "in Men's Shoes" suggestions) and **recent searches**
 - Sidebar menu ("☰ All") with a department sub-menu, plus a nav belt

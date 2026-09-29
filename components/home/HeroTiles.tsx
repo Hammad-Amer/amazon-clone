@@ -18,7 +18,7 @@ export type HeroTile = {
   images: { src: string; alt: string }[];
 };
 
-/** Amazon's current homepage hero: a row of tall, rounded promo tiles that scrolls sideways. */
+/** Homepage hero: a row of tall, rounded promo tiles that scrolls sideways. */
 export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ start: true, end: false });
@@ -51,7 +51,7 @@ export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
           <Link
             key={t.title}
             href={t.href}
-            className="group relative flex aspect-[5/7] w-[72vw] shrink-0 snap-start flex-col overflow-hidden rounded-xl p-4 sm:w-[44vw] md:w-[31%] lg:w-[23.5%] xl:w-[calc((100%-3rem)/5.25)]"
+            className="group relative flex aspect-[5/7] w-[72vw] shrink-0 snap-start flex-col overflow-hidden rounded-2xl p-4 sm:w-[44vw] md:w-[31%] lg:w-[23.5%] xl:w-[calc((100%-3rem)/5.25)]"
             style={{ background: t.background }}
           >
             <div className={cn("relative z-10", t.dark ? "text-white" : "text-amz-text")}>
@@ -93,21 +93,21 @@ export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
         onClick={() => page(-1)}
         aria-label="Previous"
         className={cn(
-          "absolute left-0 top-1/2 hidden h-28 w-12 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-amz-border bg-white/95 shadow-md transition-opacity hover:bg-white md:flex",
+          "absolute left-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-amz-nav shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
           edges.start && "pointer-events-none opacity-0",
         )}
       >
-        <ChevronLeft size={30} strokeWidth={1.6} />
+        <ChevronLeft size={26} strokeWidth={2.2} />
       </button>
       <button
         onClick={() => page(1)}
         aria-label="Next"
         className={cn(
-          "absolute right-0 top-1/2 hidden h-28 w-12 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-amz-border bg-white/95 shadow-md transition-opacity hover:bg-white md:flex",
+          "absolute right-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-amz-nav shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
           edges.end && "pointer-events-none opacity-0",
         )}
       >
-        <ChevronRight size={30} strokeWidth={1.6} />
+        <ChevronRight size={26} strokeWidth={2.2} />
       </button>
     </section>
   );
