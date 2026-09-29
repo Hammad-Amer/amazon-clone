@@ -81,7 +81,7 @@ export function ProductRow({
               {variant === "deal" && p.discountPercentage > 0 && (
                 <div className="mt-2 space-y-1">
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                    <span className="whitespace-nowrap rounded-sm bg-amz-deal px-1.5 py-1 font-bold text-white">
+                    <span className="whitespace-nowrap rounded-full bg-amz-deal px-2 py-0.5 font-bold text-white">
                       {p.discountPercentage}% off
                     </span>
                     <span className="whitespace-nowrap font-bold text-amz-deal">Limited time deal</span>

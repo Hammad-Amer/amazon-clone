@@ -8,22 +8,18 @@
   --color-amz-footer: #19376d;
   --color-amz-footer-dark: #0b2447;
   --color-amz-backtop: #2a4a86;
-  --color-amz-bg: #e3e6e6;
+  --color-amz-bg: #eef5fc;
   --color-amz-search: #7cc4ff;
   --color-amz-search-hover: #5fb2f5;
-  --color-amz-yellow: #ffd814;
-  --color-amz-yellow-hover: #f7ca00;
-  --color-amz-orange: #ffa41c;
-  --color-amz-orange-hover: #fa8900;
-  --color-amz-link: #007185;
-  --color-amz-link-hover: #c7511f;
+  --color-amz-link: #2f80ed;
+  --color-amz-link-hover: #1f6fd8;
   --color-amz-deal: #cc0c39;
   --color-amz-star: #de7921;
-  --color-amz-green: #007600;
+  --color-amz-green: #1a7f37;
   --color-amz-text: #0f1111;
   --color-amz-muted: #565959;
-  --color-amz-border: #d5d9d9;
-  --color-amz-focus: #007185;
+  --color-amz-border: #d6e4f5;
+  --color-amz-focus: #2f80ed;
 
   /* Sky & Navy brand accents. */
   --color-brand: #2f80ed;
@@ -53,7 +49,7 @@ body {
   color: var(--color-amz-text);
 }
 
-/* Amazon-style focus ring for keyboard users. */
+/* Focus ring for keyboard users. */
 :focus-visible {
   outline: 2px solid var(--color-amz-focus);
   outline-offset: 2px;

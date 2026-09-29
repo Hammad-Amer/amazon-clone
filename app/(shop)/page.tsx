@@ -166,7 +166,7 @@ export default function HomePage() {
               href={`/dp/${topDeal.id}`}
               caption={
                 <div className="space-y-1">
-                  <span className="rounded-sm bg-amz-deal px-1.5 py-1 text-xs font-bold text-white">
+                  <span className="rounded-full bg-amz-deal px-2 py-0.5 text-xs font-bold text-white">
                     {topDeal.discountPercentage}% off
                   </span>{" "}
                   <span className="text-xs font-bold text-amz-deal">Deal of the Day</span>

@@ -3,8 +3,6 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
 const variants = {
-  yellow: "bg-amz-yellow hover:bg-amz-yellow-hover border-amz-yellow-hover text-amz-text",
-  orange: "bg-amz-orange hover:bg-amz-orange-hover border-amz-orange-hover text-amz-text",
   outline: "bg-white hover:bg-sky-tint border-[#bcd6f7] text-amz-text",
   dark: "bg-amz-nav hover:bg-amz-backtop border-amz-nav text-white",
   brand: "bg-brand hover:bg-brand-hover border-brand text-white font-medium shadow-[0_2px_8px_rgba(47,128,237,0.28)]",
@@ -20,10 +18,10 @@ type Variant = keyof typeof variants;
 type Size = keyof typeof sizes;
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full border font-normal shadow-[0_2px_5px_rgba(213,217,217,0.5)] transition-colors disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-full border font-normal shadow-[0_2px_5px_rgba(11,36,71,0.08)] transition-colors disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Button({
-  variant = "yellow",
+  variant = "brand",
   size = "md",
   className,
   ...props
@@ -32,7 +30,7 @@ export function Button({
 }
 
 export function ButtonLink({
-  variant = "yellow",
+  variant = "brand",
   size = "md",
   className,
   ...props

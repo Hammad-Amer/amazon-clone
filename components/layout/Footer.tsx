@@ -66,10 +66,10 @@ export function Footer() {
         </div>
         <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-6 border-t border-[#3a4553] pt-8">
           <Logo />
-          <span className="flex items-center gap-2 rounded-sm border border-[#848688] px-3 py-1.5 text-sm text-[#ccc]">
+          <span className="flex items-center gap-2 rounded-full border border-[#4a6aa3] px-3 py-1.5 text-sm text-[#d6e4f5]">
             <Globe size={14} /> English
           </span>
-          <span className="flex items-center gap-2 rounded-sm border border-[#848688] px-3 py-1.5 text-sm text-[#ccc]">
+          <span className="flex items-center gap-2 rounded-full border border-[#4a6aa3] px-3 py-1.5 text-sm text-[#d6e4f5]">
             <span aria-hidden className="inline-block h-3 w-4 rounded-[1px] bg-[repeating-linear-gradient(#b22234_0_1.5px,#fff_1.5px_3px)] shadow-[inset_7px_6px_0_0_#3c3b6e]" /> United States
           </span>
         </div>

@@ -20,20 +20,23 @@ export function WishlistView() {
   const add = useCart((s) => s.add);
   const user = useAuth((s) => s.user);
 
-  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-lg bg-white" />;
+  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-white" />;
 
   return (
-    <div className="mx-auto max-w-4xl rounded-lg bg-white p-5">
-      <div className="flex flex-wrap items-end justify-between gap-2 border-b border-amz-border pb-3">
+    <div className="mx-auto max-w-4xl rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5">
+      <div className="flex flex-wrap items-end justify-between gap-2 border-b border-[#e3ecf7] pb-3">
         <div>
-          <h1 className="text-2xl font-bold">{user ? `${user.name.split(" ")[0]}'s` : "Your"} Wish List</h1>
+          <h1 className="flex items-center gap-2 text-2xl font-extrabold tracking-tight">
+            <Heart size={22} className="fill-amz-deal text-amz-deal" aria-hidden />
+            {user ? `${user.name.split(" ")[0]}'s` : "Your"} Wish List
+          </h1>
           <p className="text-sm text-amz-muted">
             {items.length} {items.length === 1 ? "item" : "items"} · Private
           </p>
         </div>
         {items.length > 0 && (
           <Button
-            variant="outline"
+            variant="brand"
             size="sm"
             onClick={() => {
               items.forEach((p) => add(p));
@@ -47,35 +50,38 @@ export function WishlistView() {
 
       {items.length === 0 ? (
         <div className="py-10 text-center">
-          <Heart size={48} strokeWidth={1.2} className="mx-auto text-[#aab7b8]" />
-          <p className="mt-3 font-bold">Your Wish List is empty</p>
+          <span className="mx-auto flex size-20 items-center justify-center rounded-full bg-sky">
+            <Heart size={40} strokeWidth={1.4} className="text-brand" />
+          </span>
+          <p className="mt-3 text-lg font-extrabold tracking-tight">Your Wish List is empty</p>
           <p className="mt-1 text-sm text-amz-muted">Tap &quot;Add to List&quot; on any product to save it here.</p>
-          <ButtonLink href="/deals" className="mt-4">
+          <ButtonLink href="/deals" variant="brand" className="mt-4">
             Discover today&apos;s deals
           </ButtonLink>
         </div>
       ) : (
         <ul>
           {items.map((p) => (
-            <li key={p.id} className="flex gap-4 border-b border-amz-border py-4 last:border-0">
-              <Link href={`/dp/${p.id}`} className="relative h-32 w-32 shrink-0 bg-[#f7f8f8]">
+            <li key={p.id} className="flex gap-4 border-b border-[#e3ecf7] py-4 last:border-0">
+              <Link href={`/dp/${p.id}`} className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-sky sm:h-32 sm:w-32">
                 <Image src={p.thumbnail} alt={p.title} fill sizes="128px" className="object-contain p-2 mix-blend-multiply" />
               </Link>
               <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:gap-4">
                 <div className="min-w-0 flex-1">
-                  <Link href={`/dp/${p.id}`} className="line-clamp-2 font-bold text-amz-link hover:text-amz-link-hover hover:underline">
+                  <Link href={`/dp/${p.id}`} className="line-clamp-2 font-bold hover:text-brand hover:underline">
                     {p.title}
                   </Link>
                   {p.brand && <p className="text-sm text-amz-muted">by {p.brand}</p>}
                   <div className="flex items-center gap-1 text-sm">
                     <Stars rating={p.rating} size={14} />
-                    <span className="text-amz-link">{formatCount(p.ratingCount)}</span>
+                    <span className="text-amz-muted">{formatCount(p.ratingCount)}</span>
                   </div>
                   <Price amount={p.price} size="sm" />
                 </div>
                 <div className="flex shrink-0 flex-row gap-2 sm:w-44 sm:flex-col">
                   <Button
                     size="sm"
+                    variant="brand"
                     onClick={() => {
                       add(p);
                       remove(p.id);

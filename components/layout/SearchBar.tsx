@@ -199,7 +199,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
                 onMouseEnter={() => setActive(i)}
                 className={cn(
                   "flex cursor-pointer items-center gap-2 px-3 py-1.5 text-amz-text",
-                  i === active && "bg-[#f3f3f3]",
+                  i === active && "bg-sky",
                 )}
                 onMouseDown={(e) => {
                   e.preventDefault();

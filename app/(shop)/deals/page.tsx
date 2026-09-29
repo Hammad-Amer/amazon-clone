@@ -30,21 +30,25 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
 
   const chip = (active: boolean) =>
     cn(
-      "shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors",
-      active ? "border-amz-link bg-[#edfdff] font-bold text-amz-text" : "border-amz-border bg-white hover:bg-[#f7fafa]",
+      "shrink-0 rounded-full px-4 py-1.5 text-sm transition-colors",
+      active
+        ? "bg-brand font-bold text-white shadow-[0_2px_8px_rgba(47,128,237,0.28)]"
+        : "bg-white ring-1 ring-[#d6e4f5] hover:bg-sky-tint hover:text-brand",
     );
 
   return (
     <div className="mx-auto max-w-[1500px] px-3 py-5 md:px-5">
-      <div className="mb-5 overflow-hidden rounded-lg bg-gradient-to-r from-[#131921] via-[#232f3e] to-[#37475a] px-6 py-8 text-white">
-        <p className="text-sm font-bold uppercase tracking-widest text-amz-search">Limited-time savings</p>
-        <h1 className="mt-1 text-3xl font-extrabold md:text-4xl">Today&apos;s Deals</h1>
-        <p className="mt-2 max-w-xl text-sm text-[#ddd]">
+      <div className="relative mb-5 overflow-hidden rounded-3xl bg-gradient-to-r from-[#0b2447] via-[#19376d] to-[#2f80ed] px-6 py-9 text-white md:px-10">
+        <span aria-hidden className="absolute -right-10 -top-16 size-56 rounded-full bg-white/10" />
+        <span aria-hidden className="absolute -bottom-20 right-28 size-40 rounded-full bg-[#7cc4ff]/20" />
+        <p className="relative text-sm font-bold uppercase tracking-widest text-amz-search">Limited-time savings</p>
+        <h1 className="relative mt-1 text-3xl font-extrabold tracking-tight md:text-5xl">Today&apos;s Deals</h1>
+        <p className="relative mt-2 max-w-xl text-sm text-[#d6e4f5]">
           {deals.length} deals on electronics, fashion, beauty and more — up to {deals[0]?.discountPercentage ?? 0}% off.
         </p>
       </div>
 
-      <div className="no-scrollbar mb-3 flex gap-2 overflow-x-auto">
+      <div className="no-scrollbar mb-3 flex gap-2 overflow-x-auto p-0.5">
         <Link href={href({ c: undefined })} className={chip(!dept)}>
           All deals
         </Link>
@@ -55,7 +59,7 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
         ))}
       </div>
       <div className="mb-5 flex flex-wrap items-center gap-2 text-sm">
-        <span className="font-bold">Discount:</span>
+        <span className="font-bold text-amz-nav">Discount:</span>
         <Link href={href({ min: 0 })} className={chip(!min)}>
           Any
         </Link>
@@ -67,9 +71,9 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
       </div>
 
       {deals.length === 0 ? (
-        <p className="rounded-lg bg-white p-8 text-center">No deals match these filters right now.</p>
+        <p className="rounded-2xl bg-white p-8 text-center shadow-[0_2px_12px_rgba(11,36,71,0.07)]">No deals match these filters right now.</p>
       ) : (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {deals.map((p, i) => (
             <ProductCard key={p.id} product={toSummary(p)} priority={i < 5} />
           ))}

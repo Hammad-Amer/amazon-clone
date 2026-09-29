@@ -47,7 +47,7 @@ export function BuyBox({
       {product.fastDelivery && (
         <p className="mt-1">
           Or fastest delivery <DeliveryDate days={1} long />. Order within{" "}
-          <span className="text-amz-green">6 hrs 12 mins</span>
+          <span className="font-medium text-amz-green">6 hrs 12 mins</span>
         </p>
       )}
       <button

@@ -95,7 +95,7 @@ export function Modal({
           size === "lg" ? "max-w-xl" : "max-w-sm",
         )}
       >
-        <div className="flex items-center justify-between border-b border-amz-border bg-[#f0f2f2] px-5 py-3">
+        <div className="flex items-center justify-between border-b border-amz-border bg-sky px-5 py-3">
           <h2 className="font-bold">{title}</h2>
           <button onClick={onClose} aria-label="Close" className="text-amz-muted hover:text-amz-text">
             <X size={20} />

@@ -12,8 +12,8 @@ import { cn } from "@/lib/cn";
 export function showAddedToast(product: ProductSummary, count = 1) {
   toast.custom(
     (id) => (
-      <div className="flex w-[340px] items-center gap-3 rounded-lg border border-amz-border bg-white p-3 shadow-xl">
-        <div className="relative h-14 w-14 shrink-0 bg-[#f7f8f8]">
+      <div className="flex w-[340px] items-center gap-3 rounded-2xl bg-white p-3 shadow-[0_8px_30px_rgba(11,36,71,0.18)] ring-1 ring-[#d6e4f5]">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-sky">
           <Image src={product.thumbnail} alt="" fill sizes="56px" className="object-contain mix-blend-multiply" />
         </div>
         <div className="min-w-0 flex-1 text-sm">
@@ -26,7 +26,7 @@ export function showAddedToast(product: ProductSummary, count = 1) {
         <Link
           href="/cart"
           onClick={() => toast.dismiss(id)}
-          className="shrink-0 rounded-full border border-amz-border px-3 py-1 text-xs hover:bg-gray-50"
+          className="shrink-0 rounded-full bg-brand px-3 py-1 text-xs font-medium text-white hover:bg-brand-hover"
         >
           Go to Cart
         </Link>
@@ -48,7 +48,7 @@ export function AddToCartButton({
   qty?: number;
   className?: string;
   size?: "sm" | "md" | "lg";
-  variant?: "yellow" | "brand";
+  variant?: "brand" | "dark";
 }) {
   const add = useCart((s) => s.add);
   const outOfStock = product.stock <= 0;
