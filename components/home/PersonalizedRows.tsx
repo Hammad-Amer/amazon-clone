@@ -32,9 +32,9 @@ export function PersonalizedRows() {
 
   return (
     <>
-      <ProductRow title="Keep shopping for" subtitle="Based on items you viewed" variant="detail" products={viewed} />
-      {user && <ProductRow title="Buy it again" href="/orders" variant="detail" products={buyAgain} />}
-      {historyKey && <ProductRow title="Inspired by your browsing history" products={inspired} />}
+      <ProductRow framed title="Keep shopping for" subtitle="Based on items you viewed" variant="detail" products={viewed} />
+      {user && <ProductRow framed title="Buy it again" href="/orders" variant="detail" products={buyAgain} />}
+      {historyKey && <ProductRow framed title="Inspired by your browsing history" products={inspired} />}
     </>
   );
 }

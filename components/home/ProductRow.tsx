@@ -8,6 +8,7 @@ import { Price } from "@/components/product/Price";
 import { Stars } from "@/components/product/Rating";
 import { formatCount } from "@/lib/format";
 import type { ProductSummary } from "@/lib/types";
+import { cn } from "@/lib/cn";
 
 /**
  * Horizontal product strip. Native scrolling (with snap) keeps touch/trackpad
@@ -19,6 +20,7 @@ export function ProductRow({
   href,
   variant = "image",
   subtitle,
+  framed = false,
 }: {
   title: string;
   products: ProductSummary[];
@@ -26,6 +28,8 @@ export function ProductRow({
   /** "image": image only (Amazon's homepage strips); "deal": adds discount badge + price; "detail": title, stars, price */
   variant?: "image" | "deal" | "detail";
   subtitle?: string;
+  /** Soft rounded card, used on the homepage. */
+  framed?: boolean;
 }) {
   const scroller = useRef<HTMLDivElement>(null);
   if (products.length === 0) return null;
@@ -36,9 +40,9 @@ export function ProductRow({
   };
 
   return (
-    <section className="bg-white px-5 py-4">
+    <section className={cn("bg-white", framed ? "rounded-xl border border-[#e3e6e6] p-4 md:px-5" : "px-5 py-4")}>
       <div className="mb-2 flex items-baseline gap-3">
-        <h2 className="text-[21px] font-bold leading-tight">{title}</h2>
+        <h2 className={cn("text-[21px] leading-tight", framed ? "font-extrabold tracking-tight" : "font-bold")}>{title}</h2>
         {href && (
           <Link href={href} className="text-[13px] text-amz-link hover:text-amz-link-hover hover:underline">
             See all
@@ -57,8 +61,8 @@ export function ProductRow({
               <div
                 className={
                   variant === "image"
-                    ? "relative h-[150px] w-[130px] bg-[#f7f8f8] md:h-[200px] md:w-[170px]"
-                    : "relative aspect-square w-full bg-[#f7f8f8]"
+                    ? "relative h-[150px] w-[130px] overflow-hidden rounded-lg bg-[#f5f6f6] md:h-[200px] md:w-[170px]"
+                    : "relative aspect-square w-full overflow-hidden rounded-lg bg-[#f5f6f6]"
                 }
               >
                 <Image

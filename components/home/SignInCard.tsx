@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
+import { homeCardCls } from "./Cards";
 import { useAuth } from "@/store/auth";
 import { useCart } from "@/store/cart";
 import { useWishlist } from "@/store/misc";
@@ -17,8 +18,8 @@ export function SignInCard() {
 
   if (!user) {
     return (
-      <section className="flex flex-col bg-white p-5">
-        <h2 className="text-[21px] font-bold leading-tight">Sign in for the best experience</h2>
+      <section className={homeCardCls}>
+        <h2 className="text-[21px] font-extrabold leading-tight tracking-tight">Sign in for the best experience</h2>
         <ButtonLink href="/signin" className="mt-4 w-full">
           Sign in securely
         </ButtonLink>
@@ -28,7 +29,7 @@ export function SignInCard() {
             Create an account
           </Link>
         </p>
-        <div className="mt-5 rounded-md bg-gradient-to-br from-[#232f3e] to-[#37475a] p-4 text-white">
+        <div className="mt-5 rounded-lg bg-gradient-to-br from-[#232f3e] to-[#37475a] p-4 text-white">
           <p className="text-sm font-bold">Just looking around?</p>
           <p className="mt-1 text-xs text-[#ddd]">
             Use the one-click demo account to see orders, lists and personalized picks.
@@ -48,8 +49,8 @@ export function SignInCard() {
   ];
 
   return (
-    <section className="flex flex-col bg-white p-5">
-      <h2 className="text-[21px] font-bold leading-tight">Hi, {user.name.split(" ")[0]}</h2>
+    <section className={homeCardCls}>
+      <h2 className="text-[21px] font-extrabold leading-tight tracking-tight">Hi, {user.name.split(" ")[0]}</h2>
       <p className="mt-1 text-sm text-amz-muted">Welcome back. Here&apos;s your account at a glance.</p>
       <div className="mt-4 grid grid-cols-3 gap-2">
         {stats.map((s) => (

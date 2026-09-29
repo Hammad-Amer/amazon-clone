@@ -8,7 +8,7 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 ## Features
 
 **Browse & discover**
-- Homepage: hero carousel (autoplay, swipe, arrows), category cards, Today's Deals strip, best-seller rows
+- Homepage in the style of Amazon's current design: a scrolling row of promo tiles, soft rounded category cards, Today's Deals strip, best-seller rows
 - Personalized rows: _Keep shopping for_ (browsing history), _Buy it again_ (orders), _Inspired by your browsing history_
 - Header search with department selector, **live autocomplete** (keyboard navigation, "in Men's Shoes" suggestions) and **recent searches**
 - Sidebar menu ("☰ All") with a department sub-menu, plus a nav belt
@@ -53,7 +53,7 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 | Styling | Tailwind CSS v4 with Amazon design tokens in `app/globals.css` |
 | Data | [DummyJSON](https://dummyjson.com) catalog snapshotted once into `data/products.json` (`npm run fetch-products`); no runtime API calls |
 | State | Zustand stores persisted to `localStorage` (cart, auth, orders, history, wishlist, location, reviews) |
-| Other | `next/image`, embla-carousel, lucide-react, sonner |
+| Other | `next/image`, lucide-react, sonner |
 
 ```
 app/(shop)/      pages with the full header/footer: home, /s, /dp/[id], /cart, /orders, /deals, /wishlist
