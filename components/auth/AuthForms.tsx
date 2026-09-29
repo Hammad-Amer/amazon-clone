@@ -30,7 +30,7 @@ function useAfterAuth() {
 
 function ErrorBox({ message }: { message: string }) {
   return (
-    <div role="alert" className="mb-4 flex gap-3 rounded-2xl border border-amz-deal bg-white p-4 shadow-[inset_0_0_0_4px_#fcf4f4]">
+    <div role="alert" className="mb-4 flex gap-3 rounded-2xl border border-amz-deal bg-surface p-4 shadow-[inset_0_0_0_4px_#fcf4f4]">
       <CircleAlert className="shrink-0 text-amz-deal" />
       <div>
         <p className="font-bold text-amz-deal">There was a problem</p>
@@ -61,7 +61,7 @@ function DemoButton() {
   });
 
   return (
-    <div className="mt-5 rounded-xl bg-sky p-4 text-center ring-1 ring-[#d6e4f5]">
+    <div className="mt-5 rounded-xl bg-sky p-4 text-center ring-1 ring-amz-border">
       <p className="flex items-center justify-center gap-1.5 text-sm font-bold">
         <Sparkles size={16} className="text-brand" /> Reviewing this project?
       </p>
@@ -100,7 +100,7 @@ export function SignInForm() {
   return (
     <>
       {formError && <ErrorBox message={formError} />}
-      <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
+      <div className="rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
         <h1 className="text-[28px] font-extrabold leading-tight tracking-tight">Sign in</h1>
         <form onSubmit={onSubmit} noValidate className="mt-4 space-y-3.5">
           <Field label="Email" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} error={errors.email} autoFocus />
@@ -116,12 +116,12 @@ export function SignInForm() {
         <DemoButton />
       </div>
       <div className="relative mt-6 text-center text-xs text-amz-muted">
-        <span className="absolute inset-x-0 top-1/2 h-px bg-[#d6e4f5]" />
+        <span className="absolute inset-x-0 top-1/2 h-px bg-amz-border" />
         <span className="relative bg-sky px-2">New to amazon.clone?</span>
       </div>
       <Link
         href={`/register${params.get("next") ? `?next=${encodeURIComponent(params.get("next")!)}` : ""}`}
-        className="mt-3 block rounded-full bg-white py-2 text-center text-[13px] font-medium ring-1 ring-[#bcd6f7] hover:bg-sky-tint hover:text-brand"
+        className="mt-3 block rounded-full bg-surface py-2 text-center text-[13px] font-medium ring-1 ring-rim hover:bg-sky-tint hover:text-brand"
       >
         Create your amazon.clone account
       </Link>
@@ -158,7 +158,7 @@ export function RegisterForm() {
   return (
     <>
       {formError && <ErrorBox message={formError} />}
-      <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
+      <div className="rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
         <h1 className="text-[28px] font-extrabold leading-tight tracking-tight">Create account</h1>
         <form onSubmit={onSubmit} noValidate className="mt-4 space-y-3.5">
           <Field label="Your name" name="name" autoComplete="name" placeholder="First and last name" value={form.name} onChange={set("name")} error={errors.name} autoFocus />
@@ -172,7 +172,7 @@ export function RegisterForm() {
         <p className="mt-4 text-xs text-amz-muted">
           This is a demo store: your account is saved only in this browser. Please don&apos;t reuse a real password.
         </p>
-        <hr className="my-4 border-[#e3ecf7]" />
+        <hr className="my-4 border-line" />
         <p className="text-[13px]">
           Already have an account?{" "}
           <Link

@@ -3,8 +3,8 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
 const variants = {
-  outline: "bg-white hover:bg-sky-tint border-[#bcd6f7] text-amz-text",
-  dark: "bg-amz-nav hover:bg-amz-backtop border-amz-nav text-white",
+  outline: "bg-surface hover:bg-sky-tint border-rim text-amz-text",
+  dark: "bg-amz-nav hover:bg-amz-backtop border-amz-nav text-white dark:bg-[#e4ebf5] dark:hover:bg-white dark:border-transparent dark:text-[#0b2447]",
   brand: "bg-brand hover:bg-brand-hover border-brand text-white font-medium shadow-[0_2px_8px_rgba(47,128,237,0.28)]",
 };
 

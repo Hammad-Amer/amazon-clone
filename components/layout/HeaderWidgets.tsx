@@ -70,7 +70,7 @@ export function AccountMenu() {
       {/* Hover / keyboard-focus flyout */}
       <div className="invisible absolute right-0 top-full z-50 pt-2 opacity-0 transition-opacity delay-100 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
         <div className="absolute right-10 top-0.5 h-0 w-0 border-x-8 border-b-8 border-x-transparent border-b-white" />
-        <div className="w-[420px] rounded-2xl bg-white p-5 text-amz-text shadow-[0_12px_40px_rgba(11,36,71,0.22)]">
+        <div className="w-[420px] rounded-2xl bg-surface p-5 text-amz-text shadow-[0_12px_40px_rgba(11,36,71,0.22)]">
           {!user && (
             <div className="mb-4 border-b border-amz-border pb-4 text-center">
               <Link
@@ -89,14 +89,14 @@ export function AccountMenu() {
           )}
           <div className="grid grid-cols-2 gap-6 text-[13px]">
             <div>
-              <h3 className="mb-2 text-base font-extrabold text-amz-nav">Your Lists</h3>
+              <h3 className="mb-2 text-base font-extrabold text-strong">Your Lists</h3>
               <ul className="space-y-1.5">
                 <li><Link className="hover:text-amz-link-hover hover:underline" href="/wishlist">Wish List</Link></li>
                 <li><Link className="hover:text-amz-link-hover hover:underline" href="/deals">Discover deals</Link></li>
               </ul>
             </div>
             <div className="border-l border-amz-border pl-6">
-              <h3 className="mb-2 text-base font-extrabold text-amz-nav">Your Account</h3>
+              <h3 className="mb-2 text-base font-extrabold text-strong">Your Account</h3>
               <ul className="space-y-1.5">
                 <li><Link className="hover:text-amz-link-hover hover:underline" href="/orders">Orders</Link></li>
                 <li><Link className="hover:text-amz-link-hover hover:underline" href="/wishlist">Wish List</Link></li>

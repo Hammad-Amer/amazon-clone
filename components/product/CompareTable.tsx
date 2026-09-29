@@ -47,7 +47,7 @@ const ROWS: Row[] = [
       ) : p.stock < 10 ? (
         <span className="text-amz-deal">Only {p.stock} left in stock</span>
       ) : (
-        <span className="text-[#1a7f37]">In Stock</span>
+        <span className="text-amz-green">In Stock</span>
       ),
   },
   { label: "Item Weight", cell: (p) => `${p.weight} ounces` },
@@ -57,7 +57,7 @@ const ROWS: Row[] = [
 /** "Compare with similar items": this product next to its closest alternatives. */
 export function CompareTable({ product, others }: { product: Product; others: Product[] }) {
   const cols = [product, ...others];
-  const th = "sticky left-0 z-10 w-32 bg-white py-2.5 pr-3 text-left align-top text-sm font-bold md:w-44";
+  const th = "sticky left-0 z-10 w-32 bg-surface py-2.5 pr-3 text-left align-top text-sm font-bold md:w-44";
 
   return (
     <section aria-labelledby="compare-heading">
@@ -90,7 +90,7 @@ export function CompareTable({ product, others }: { product: Product; others: Pr
           </thead>
           <tbody>
             {ROWS.map((row) => (
-              <tr key={row.label} className="border-t border-[#e3ecf7]">
+              <tr key={row.label} className="border-t border-line">
                 <th scope="row" className={th}>
                   {row.label}
                 </th>

@@ -37,10 +37,10 @@ export function BuyBox({
   const freeDelivery = product.price >= FREE_SHIPPING_THRESHOLD || product.fastDelivery;
 
   return (
-    <div className="rounded-2xl bg-white p-4 text-sm shadow-[0_4px_20px_rgba(11,36,71,0.10)] ring-1 ring-[#d6e4f5]">
+    <div className="rounded-2xl bg-surface p-4 text-sm shadow-[0_4px_20px_rgba(11,36,71,0.10)] ring-1 ring-amz-border">
       <Price amount={product.price} size="lg" />
       <p className="mt-3">
-        {freeDelivery ? <span className="font-bold text-[#1a7f37]">FREE delivery </span> : "$5.99 delivery "}
+        {freeDelivery ? <span className="font-bold text-amz-green">FREE delivery </span> : "$5.99 delivery "}
         <DeliveryDate days={product.fastDelivery ? 2 : 5} long />
         {!freeDelivery && <span className="text-amz-muted"> on orders under ${FREE_SHIPPING_THRESHOLD}</span>}
       </p>
@@ -63,7 +63,7 @@ export function BuyBox({
 
       {inStock && (
         <>
-          <label className="mt-3 flex w-fit items-center gap-2 rounded-full bg-sky-tint px-3.5 py-1.5 ring-1 ring-[#bcd6f7]">
+          <label className="mt-3 flex w-fit items-center gap-2 rounded-full bg-sky-tint px-3.5 py-1.5 ring-1 ring-rim">
             <span>Quantity:</span>
             <select
               value={qty}
@@ -114,7 +114,7 @@ export function BuyBox({
         <dd>{shippingInformation}</dd>
       </dl>
 
-      <hr className="my-4 border-[#e3ecf7]" />
+      <hr className="my-4 border-line" />
       <Button
         variant="outline"
         className="w-full"

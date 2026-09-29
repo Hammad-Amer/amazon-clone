@@ -125,9 +125,9 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
             if (showDropdown && opt) go(opt.href, opt.recent ?? k);
             else go(searchHref(k), k);
           }}
-          className="flex h-10 overflow-hidden rounded-md bg-white focus-within:ring-[3px] focus-within:ring-amz-search"
+          className="flex h-10 overflow-hidden rounded-md bg-surface focus-within:ring-[3px] focus-within:ring-amz-search"
         >
-          <label className="relative hidden shrink-0 items-center gap-1 border-r border-amz-border bg-[#e6e6e6] px-2 text-xs text-amz-muted hover:bg-[#dadada] hover:text-amz-text sm:flex">
+          <label className="relative hidden shrink-0 items-center gap-1 border-r border-amz-border bg-sky-tint px-2 text-xs text-amz-muted hover:bg-amz-border hover:text-amz-text sm:flex">
             <span className="max-w-40 truncate">{c ? filterLabel(c) : "All"}</span>
             <ChevronDown size={12} />
             <select
@@ -166,7 +166,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
             aria-controls={listId}
             aria-autocomplete="list"
             aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
-            className="min-w-0 flex-1 px-3 text-[15px] text-amz-text outline-none placeholder:text-[#6b6b6b]"
+            className="min-w-0 flex-1 px-3 text-[15px] text-amz-text outline-none placeholder:text-amz-muted"
             autoComplete="off"
             enterKeyHint="search"
           />
@@ -183,7 +183,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
           <ul
             id={listId}
             role="listbox"
-            className="absolute left-0 right-0 top-full mt-0.5 overflow-hidden rounded-b-md border border-amz-border bg-white py-1 text-[15px] shadow-lg"
+            className="absolute left-0 right-0 top-full mt-0.5 overflow-hidden rounded-b-md border border-amz-border bg-surface py-1 text-[15px] shadow-lg"
           >
             {!k.trim() && (
               <li className="px-3 pb-1 pt-1 text-xs font-bold uppercase tracking-wide text-amz-muted">
@@ -216,7 +216,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
                   <button
                     type="button"
                     aria-label={`Remove ${o.recent} from recent searches`}
-                    className="rounded p-1 text-amz-muted hover:bg-gray-200 hover:text-amz-text"
+                    className="rounded p-1 text-amz-muted hover:bg-sky-tint hover:text-amz-text"
                     onMouseDown={(e) => {
                       e.preventDefault();
                       e.stopPropagation();

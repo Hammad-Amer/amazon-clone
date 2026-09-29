@@ -1,6 +1,7 @@
 import { Globe, Menu } from "lucide-react";
 import Link from "next/link";
 import { AccountMenu, CartLink, DeliverTo, MobileAccountLink, SidebarToggle } from "./HeaderWidgets";
+import { ThemeToggle } from "./Theme";
 import { Logo } from "./Logo";
 import { SearchBar } from "./SearchBar";
 
@@ -35,6 +36,7 @@ export function Header() {
             <span className="hidden items-center gap-1 rounded-sm border border-transparent px-2 py-3 text-sm font-bold text-white hover:border-white xl:flex">
               <Globe size={16} aria-hidden /> EN
             </span>
+            <ThemeToggle />
             <MobileAccountLink />
             <AccountMenu />
             <Link

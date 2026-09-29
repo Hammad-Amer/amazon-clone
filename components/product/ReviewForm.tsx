@@ -51,7 +51,7 @@ function StarPicker({ value, onChange, error }: { value: number; onChange: (n: n
               <svg width={32} height={32} viewBox="0 0 24 24" aria-hidden>
                 <path
                   d={STAR}
-                  fill={n <= shown ? "#de7921" : "#fff"}
+                  style={{ fill: n <= shown ? "#de7921" : "var(--color-surface)" }}
                   stroke={n <= shown ? "#de7921" : "#8d9096"}
                   strokeWidth="1.2"
                   strokeLinejoin="round"
@@ -124,14 +124,14 @@ export function ReviewForm({
           aria-describedby="review-body-hint"
           className={cn(
             "w-full rounded-lg border px-2.5 py-2 text-[13px] outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]",
-            errors.body ? "border-amz-deal" : "border-[#a6a6a6]",
+            errors.body ? "border-amz-deal" : "border-field",
           )}
         />
         <p id="review-body-hint" className={cn("mt-1 text-xs", errors.body ? "text-amz-deal" : "text-amz-muted")}>
           {errors.body ?? (length < REVIEW_MIN_LENGTH ? `${REVIEW_MIN_LENGTH - length} more characters needed` : `${length} characters`)}
         </p>
       </div>
-      <div className="flex justify-end gap-2 border-t border-[#e3ecf7] pt-4">
+      <div className="flex justify-end gap-2 border-t border-line pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
+import { ThemedToaster, ThemeSync } from "@/components/layout/Theme";
+import { THEME_SCRIPT } from "@/lib/theme";
 import { StoreHydrator } from "@/store/StoreHydrator";
 import "./globals.css";
 
@@ -16,16 +17,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b2447",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0b2447" },
+    { media: "(prefers-color-scheme: dark)", color: "#070f1c" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    // The inline script sets data-theme before first paint, so React must accept the DOM value.
+    <html lang="en" data-theme="light" className={`${inter.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-screen flex-col font-sans">
         {children}
         <StoreHydrator />
-        <Toaster position="top-center" richColors closeButton />
+        <ThemeSync />
+        <ThemedToaster />
       </body>
     </html>
   );

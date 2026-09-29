@@ -5,10 +5,10 @@ import Link from "next/link";
 export type QuadTile = { label: string; href: string; image: string };
 
 /** Soft white homepage card that floats on the sky background. */
-export const homeCardCls = "flex flex-col rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(11,36,71,0.07)] md:p-5";
+export const homeCardCls = "flex flex-col rounded-2xl bg-surface p-4 shadow-[0_2px_12px_rgba(11,36,71,0.07)] md:p-5";
 
 // Blue-family tints behind product shots, so the tiles read as soft boxes.
-const TINTS = ["#e8f1fd", "#eceafd", "#e6f5f8", "#f1f5fb"];
+const TINTS = ["var(--color-tint-1)", "var(--color-tint-2)", "var(--color-tint-3)", "var(--color-tint-4)"];
 
 /** Card heading that links to the full collection, with a round chevron badge. */
 export function CardTitle({ title, href }: { title: string; href?: string }) {

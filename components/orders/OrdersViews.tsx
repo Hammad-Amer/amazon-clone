@@ -42,7 +42,7 @@ function BuyAgain({ product }: { product: Order["items"][number]["product"] }) {
 
 function SignInPrompt({ next }: { next: string }) {
   return (
-    <div className="mx-auto max-w-lg rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
+    <div className="mx-auto max-w-lg rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
       <Package size={48} strokeWidth={1.2} className="mx-auto text-brand" />
       <h1 className="mt-2 text-xl font-extrabold tracking-tight">Sign in to see your orders</h1>
       <p className="mt-1 text-sm text-amz-muted">Track packages, buy things again and view order details.</p>
@@ -56,8 +56,8 @@ function SignInPrompt({ next }: { next: string }) {
 function OrderCard({ order }: { order: Order }) {
   const status = orderStatus(order);
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
-      <header className="grid grid-cols-2 gap-3 bg-sky-tint px-5 py-3 text-xs text-[#4a6385] sm:flex sm:gap-10">
+    <article className="overflow-hidden rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
+      <header className="grid grid-cols-2 gap-3 bg-sky-tint px-5 py-3 text-xs text-amz-muted sm:flex sm:gap-10">
         <div>
           <p className="font-bold uppercase tracking-wide">Order placed</p>
           <p className="text-sm text-amz-text">{longDate(order.createdAt)}</p>
@@ -78,8 +78,8 @@ function OrderCard({ order }: { order: Order }) {
         </div>
       </header>
       <div className="px-5 py-4">
-        <h2 className={cn("flex items-center gap-2 text-lg font-extrabold tracking-tight", status.delivered ? "text-amz-text" : "text-[#1a7f37]")}>
-          {status.delivered ? <CircleCheck size={20} className="fill-[#1a7f37] text-white" /> : <Truck size={20} />}
+        <h2 className={cn("flex items-center gap-2 text-lg font-extrabold tracking-tight", status.delivered ? "text-amz-text" : "text-amz-green")}>
+          {status.delivered ? <CircleCheck size={20} className="fill-amz-green text-white" /> : <Truck size={20} />}
           {status.label}
         </h2>
         <ul className="mt-3 space-y-4">
@@ -117,7 +117,7 @@ export function OrdersList() {
   const all = useOrders((s) => s.orders);
   const [filter, setFilter] = useState<"all" | "transit" | "delivered">("all");
 
-  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-white" />;
+  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-surface" />;
   if (!user) return <SignInPrompt next="/orders" />;
 
   const mine = ordersFor(all, user.email);
@@ -129,7 +129,7 @@ export function OrdersList() {
         <span className="text-amz-muted">Your Account</span> › Your Orders
       </nav>
       <h1 className="text-[28px] font-extrabold tracking-tight">Your Orders</h1>
-      <div role="tablist" className="mt-3 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full bg-white p-1 text-sm shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
+      <div role="tablist" className="mt-3 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full bg-surface p-1 text-sm shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
         {(
           [
             ["all", "Orders"],
@@ -152,7 +152,7 @@ export function OrdersList() {
         <b>{shown.length} {shown.length === 1 ? "order" : "orders"}</b> {filter === "all" ? "placed" : ""}
       </p>
       {mine.length === 0 ? (
-        <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
+        <div className="rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
           <p>You haven&apos;t placed any orders yet.</p>
           <ButtonLink href="/" variant="brand" className="mt-3">
             Start shopping
@@ -176,11 +176,11 @@ export function OrderDetail({ id }: { id: string }) {
   const placed = useSearchParams().get("placed") === "1";
   const [now] = useState(() => new Date());
 
-  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-white" />;
+  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-surface" />;
   if (!user) return <SignInPrompt next={`/orders/${id}`} />;
   if (!order) {
     return (
-      <div className="mx-auto max-w-lg rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
+      <div className="mx-auto max-w-lg rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
         <h1 className="text-xl font-extrabold tracking-tight">We couldn&apos;t find that order</h1>
         <ButtonLink href="/orders" variant="brand" className="mt-4">Go to Your Orders</ButtonLink>
       </div>
@@ -194,9 +194,9 @@ export function OrderDetail({ id }: { id: string }) {
   return (
     <div className="mx-auto max-w-4xl space-y-5">
       {placed && (
-        <div className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(11,36,71,0.07)] ring-2 ring-[#1a7f37]/40">
-          <p className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-[#1a7f37]">
-            <CircleCheck size={26} className="fill-[#1a7f37] text-white" /> Order placed, thanks!
+        <div className="rounded-2xl bg-surface p-5 shadow-[0_2px_12px_rgba(11,36,71,0.07)] ring-2 ring-amz-green/40">
+          <p className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-amz-green">
+            <CircleCheck size={26} className="fill-amz-green text-white" /> Order placed, thanks!
           </p>
           <p className="mt-1 text-sm">
             Confirmation will be sent to <b>{user.email}</b>. Estimated delivery: <b>{formatLongDate(new Date(order.deliveryBy))}</b>.
@@ -215,9 +215,9 @@ export function OrderDetail({ id }: { id: string }) {
         </p>
       </div>
 
-      <div className="grid gap-5 rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5 text-sm sm:grid-cols-3">
+      <div className="grid gap-5 rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5 text-sm sm:grid-cols-3">
         <div>
-          <h2 className="mb-1 font-extrabold text-amz-nav">Shipping Address</h2>
+          <h2 className="mb-1 font-extrabold text-strong">Shipping Address</h2>
           <p>
             {order.address.fullName}
             <br />
@@ -230,29 +230,29 @@ export function OrderDetail({ id }: { id: string }) {
           </p>
         </div>
         <div>
-          <h2 className="mb-1 font-extrabold text-amz-nav">Payment Method</h2>
+          <h2 className="mb-1 font-extrabold text-strong">Payment Method</h2>
           <p>{order.payment.method === "card" ? `${order.payment.brand} ending in ${order.payment.last4}` : "Cash on Delivery"}</p>
-          <h2 className="mb-1 mt-3 font-extrabold text-amz-nav">Delivery</h2>
+          <h2 className="mb-1 mt-3 font-extrabold text-strong">Delivery</h2>
           <p>{SHIPPING_OPTIONS[order.shipping].label.replace("FREE ", "")}</p>
         </div>
         <div>
-          <h2 className="mb-1 font-extrabold text-amz-nav">Order Summary</h2>
+          <h2 className="mb-1 font-extrabold text-strong">Order Summary</h2>
           <dl className="space-y-0.5">
             <div className="flex justify-between"><dt>Item(s) Subtotal:</dt><dd>{formatPrice(order.subtotal)}</dd></div>
             <div className="flex justify-between"><dt>Shipping &amp; Handling:</dt><dd>{formatPrice(order.shippingCost)}</dd></div>
             <div className="flex justify-between"><dt>Estimated tax:</dt><dd>{formatPrice(order.tax)}</dd></div>
-            <div className="flex justify-between border-t border-[#e3ecf7] pt-1.5 font-extrabold text-amz-nav"><dt>Grand Total:</dt><dd>{formatPrice(order.total)}</dd></div>
+            <div className="flex justify-between border-t border-line pt-1.5 font-extrabold text-strong"><dt>Grand Total:</dt><dd>{formatPrice(order.total)}</dd></div>
           </dl>
         </div>
       </div>
 
-      <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5">
-        <h2 className={cn("text-lg font-extrabold tracking-tight", !status.delivered && "text-[#1a7f37]")}>{status.label}</h2>
+      <div className="rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5">
+        <h2 className={cn("text-lg font-extrabold tracking-tight", !status.delivered && "text-amz-green")}>{status.label}</h2>
         <ol className="my-5 grid grid-cols-4" aria-label="Shipment progress">
           {steps.map((s, i) => (
             <li key={s} className="relative text-center text-xs">
               {i > 0 && <span className={cn("absolute right-1/2 top-2 h-1 w-full", i <= reached ? "bg-brand" : "bg-sky-tint")} />}
-              <span className={cn("relative mx-auto block h-5 w-5 rounded-full border-4 border-white", i <= reached ? "bg-brand" : "bg-[#c9d6e6]")} />
+              <span className={cn("relative mx-auto block h-5 w-5 rounded-full border-4 border-white", i <= reached ? "bg-brand" : "bg-field")} />
               <span className={cn("mt-1 block", i === reached && "font-bold text-brand")}>{s}</span>
             </li>
           ))}

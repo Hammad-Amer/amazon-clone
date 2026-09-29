@@ -33,13 +33,13 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
       "shrink-0 rounded-full px-4 py-1.5 text-sm transition-colors",
       active
         ? "bg-brand font-bold text-white shadow-[0_2px_8px_rgba(47,128,237,0.28)]"
-        : "bg-white ring-1 ring-[#d6e4f5] hover:bg-sky-tint hover:text-brand",
+        : "bg-surface ring-1 ring-amz-border hover:bg-sky-tint hover:text-brand",
     );
 
   return (
     <div className="mx-auto max-w-[1500px] px-3 py-5 md:px-5">
       <div className="relative mb-5 overflow-hidden rounded-3xl bg-gradient-to-r from-[#0b2447] via-[#19376d] to-[#2f80ed] px-6 py-9 text-white md:px-10">
-        <span aria-hidden className="absolute -right-10 -top-16 size-56 rounded-full bg-white/10" />
+        <span aria-hidden className="absolute -right-10 -top-16 size-56 rounded-full bg-surface/10" />
         <span aria-hidden className="absolute -bottom-20 right-28 size-40 rounded-full bg-[#7cc4ff]/20" />
         <p className="relative text-sm font-bold uppercase tracking-widest text-amz-search">Limited-time savings</p>
         <h1 className="relative mt-1 text-3xl font-extrabold tracking-tight md:text-5xl">Today&apos;s Deals</h1>
@@ -59,7 +59,7 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
         ))}
       </div>
       <div className="mb-5 flex flex-wrap items-center gap-2 text-sm">
-        <span className="font-bold text-amz-nav">Discount:</span>
+        <span className="font-bold text-strong">Discount:</span>
         <Link href={href({ min: 0 })} className={chip(!min)}>
           Any
         </Link>
@@ -71,7 +71,7 @@ export default async function DealsPage({ searchParams }: PageProps<"/deals">) {
       </div>
 
       {deals.length === 0 ? (
-        <p className="rounded-2xl bg-white p-8 text-center shadow-[0_2px_12px_rgba(11,36,71,0.07)]">No deals match these filters right now.</p>
+        <p className="rounded-2xl bg-surface p-8 text-center shadow-[0_2px_12px_rgba(11,36,71,0.07)]">No deals match these filters right now.</p>
       ) : (
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {deals.map((p, i) => (

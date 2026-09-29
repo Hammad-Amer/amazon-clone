@@ -21,9 +21,9 @@ export function Field({
         aria-invalid={!!error}
         aria-describedby={error ? `${inputId}-error` : undefined}
         className={cn(
-          "h-9 w-full rounded-lg border bg-white px-3 text-sm outline-none transition-shadow",
+          "h-9 w-full rounded-lg border bg-surface px-3 text-sm outline-none transition-shadow",
           "focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]",
-          error ? "border-amz-deal" : "border-[#c9d6e6]",
+          error ? "border-amz-deal" : "border-field",
         )}
         {...props}
       />

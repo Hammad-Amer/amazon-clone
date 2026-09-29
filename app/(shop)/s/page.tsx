@@ -52,7 +52,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/s">) {
 
   return (
     <div className="min-h-[70vh] bg-sky">
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-white px-3 py-2.5 shadow-[0_2px_10px_rgba(11,36,71,0.06)] md:px-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-surface px-3 py-2.5 shadow-[0_2px_10px_rgba(11,36,71,0.06)] md:px-5">
         <p className="text-sm">
           {result.total > 0 ? `${from}-${to} of ${result.total}` : "0"} {heading}
         </p>
@@ -64,13 +64,13 @@ export default async function SearchPage({ searchParams }: PageProps<"/s">) {
 
       <div className="mx-auto flex max-w-[1500px] gap-6 px-3 py-4 md:px-5">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label="Filters">
-          <div className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">{sidebar}</div>
+          <div className="rounded-2xl bg-surface p-5 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">{sidebar}</div>
         </aside>
 
         <div className="min-w-0 flex-1">
           <AppliedFilters params={params} />
           {relaxed && (
-            <div role="status" className="mb-5 rounded-xl border border-[#bcd6f7] bg-sky-tint px-4 py-3 text-sm">
+            <div role="status" className="mb-5 rounded-xl border border-rim bg-sky-tint px-4 py-3 text-sm">
               No results for <b>&quot;{requested.k}&quot;</b>{" "}
               {requested.c ? (
                 <>
@@ -90,7 +90,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/s">) {
                   <Link
                     key={f.slug}
                     href={searchHref(params, { c: f.slug })}
-                    className="shrink-0 rounded-full bg-white px-4 py-1.5 text-sm shadow-[0_1px_4px_rgba(11,36,71,0.08)] ring-1 ring-[#d6e4f5] transition-colors hover:bg-brand hover:text-white hover:ring-brand"
+                    className="shrink-0 rounded-full bg-surface px-4 py-1.5 text-sm shadow-[0_1px_4px_rgba(11,36,71,0.08)] ring-1 ring-amz-border transition-colors hover:bg-brand hover:text-white hover:ring-brand"
                   >
                     {f.label}
                   </Link>
@@ -127,7 +127,7 @@ function Pagination({ page, pageCount, href }: { page: number; pageCount: number
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   const cls = "flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-sm";
   return (
-    <nav aria-label="Pagination" className="mx-auto mt-8 flex w-fit max-w-full flex-wrap items-center justify-center gap-1 rounded-full bg-white p-1.5 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
+    <nav aria-label="Pagination" className="mx-auto mt-8 flex w-fit max-w-full flex-wrap items-center justify-center gap-1 rounded-full bg-surface p-1.5 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
       {page > 1 ? (
         <Link href={href(page - 1)} className={cn(cls, "hover:bg-sky-tint hover:text-brand")}>‹ Previous</Link>
       ) : (
@@ -157,7 +157,7 @@ function NoResults({ query }: { query?: string }) {
   const picks = getBestSellers(8).map(toSummary);
   return (
     <div>
-      <div className="rounded-2xl bg-white p-6 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
+      <div className="rounded-2xl bg-surface p-6 shadow-[0_2px_12px_rgba(11,36,71,0.07)]">
         <h2 className="text-lg font-bold">
           No results for {query ? <span className="text-brand">&quot;{query}&quot;</span> : "these filters"}.
         </h2>

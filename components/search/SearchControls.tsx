@@ -9,7 +9,7 @@ import { SORT_OPTIONS, type SortKey } from "@/lib/search";
 export function SortSelect({ value, hrefs }: { value: SortKey; hrefs: Record<SortKey, string> }) {
   const router = useRouter();
   return (
-    <label className="relative flex items-center gap-1 rounded-full bg-sky-tint px-3 py-1.5 text-[13px] ring-1 ring-[#bcd6f7] hover:ring-brand">
+    <label className="relative flex items-center gap-1 rounded-full bg-sky-tint px-3 py-1.5 text-[13px] ring-1 ring-rim hover:ring-brand">
       <span className="text-amz-text">Sort by:</span>
       <span className="font-bold text-brand">{SORT_OPTIONS[value]}</span>
       <ChevronDown size={14} className="text-brand" />
@@ -36,7 +36,7 @@ export function MobileFilters({ count, children }: { count: number; children: Re
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm ring-1 ring-[#bcd6f7] lg:hidden"
+        className="flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-sm ring-1 ring-rim lg:hidden"
       >
         <SlidersHorizontal size={15} /> Filters{count > 0 && <span className="font-bold text-brand">({count})</span>}
       </button>

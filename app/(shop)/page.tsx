@@ -119,7 +119,7 @@ export default function HomePage() {
   const summaries = (xs: ReturnType<typeof getDeals>) => xs.map(toSummary);
 
   return (
-    <div className="bg-sky" style={{ backgroundImage: "linear-gradient(to bottom, #d7e6fa, var(--color-sky) 420px)" }}>
+    <div className="bg-sky" style={{ backgroundImage: "linear-gradient(to bottom, var(--color-sky-tint), var(--color-sky) 420px)" }}>
       <div className="mx-auto max-w-[1500px] pt-4">
         <HeroTiles tiles={HERO} />
 

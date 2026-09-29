@@ -54,7 +54,7 @@ function Step({
   children: React.ReactNode;
 }) {
   return (
-    <section className={cn("rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] px-5 py-4", open && "ring-2 ring-brand/25")}>
+    <section className={cn("rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] px-5 py-4", open && "ring-2 ring-brand/25")}>
       <div className="flex items-start gap-4">
         <span
           className={cn(
@@ -104,7 +104,7 @@ function AddressForm({ initial, onSave }: { initial: Address; onSave: (a: Addres
     >
       <label className="sm:col-span-2">
         <span className="mb-1 block text-[13px] font-bold">Country/Region</span>
-        <select value={a.country} onChange={set("country")} className="h-9 w-full rounded-lg border border-[#c9d6e6] bg-white px-2.5 text-sm outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]">
+        <select value={a.country} onChange={set("country")} className="h-9 w-full rounded-lg border border-field bg-surface px-2.5 text-sm outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]">
           {COUNTRIES.map((c) => (
             <option key={c}>{c}</option>
           ))}
@@ -144,7 +144,7 @@ function AddressStep({ saved, onDone }: { saved: Address[]; onDone: (a: Address)
 
   return (
     <div>
-      <p className="mb-2 border-b border-[#e3ecf7] pb-1 text-sm font-bold">Your addresses</p>
+      <p className="mb-2 border-b border-line pb-1 text-sm font-bold">Your addresses</p>
       <ul className="space-y-2">
         {saved.map((a, i) => (
           <li key={i}>
@@ -161,7 +161,7 @@ function AddressStep({ saved, onDone }: { saved: Address[]; onDone: (a: Address)
       <button onClick={() => setAdding(true)} className="mt-3 text-sm font-medium text-brand hover:text-brand-hover hover:underline">
         + Add a new address
       </button>
-      <div className="mt-4 border-t border-[#e3ecf7] pt-4">
+      <div className="mt-4 border-t border-line pt-4">
         <Button variant="brand" onClick={() => onDone(saved[choice])}>
           Use this address
         </Button>
@@ -189,7 +189,7 @@ function PaymentStep({ onDone }: { onDone: (p: Payment) => void }) {
   };
 
   const option = (value: "card" | "cod", icon: React.ReactNode, label: string, sub: string) => (
-    <label className={cn("flex cursor-pointer items-start gap-3 rounded-xl border p-3", method === value ? "border-brand bg-sky" : "border-[#d6e4f5]")}>
+    <label className={cn("flex cursor-pointer items-start gap-3 rounded-xl border p-3", method === value ? "border-brand bg-sky" : "border-amz-border")}>
       <input type="radio" name="pay" checked={method === value} onChange={() => setMethod(value)} className="mt-1 accent-brand" />
       <span className="flex-1">
         <span className="flex items-center gap-2 text-sm font-bold">
@@ -204,7 +204,7 @@ function PaymentStep({ onDone }: { onDone: (p: Payment) => void }) {
     <div className="max-w-xl space-y-3">
       {option("card", <CreditCard size={18} />, "Credit or debit card", "Visa, Mastercard, American Express, Discover")}
       {method === "card" && (
-        <div className="rounded-xl border border-[#d6e4f5] p-4">
+        <div className="rounded-xl border border-amz-border p-4">
           <div className="mb-3 flex items-center justify-between gap-2 rounded-lg bg-sky-tint px-3 py-2 text-xs">
             <span>Demo store — please don&apos;t enter a real card.</span>
             <button
@@ -283,12 +283,12 @@ export function Checkout() {
   }, [allOrders, user?.email]);
 
   if (!hydrated || !user || (buyId && !buyNowLine)) {
-    return <div className="mx-auto h-96 max-w-5xl animate-pulse rounded-2xl bg-white" />;
+    return <div className="mx-auto h-96 max-w-5xl animate-pulse rounded-2xl bg-surface" />;
   }
 
   if (lines.length === 0 && !placing) {
     return (
-      <div className="mx-auto max-w-xl rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
+      <div className="mx-auto max-w-xl rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-8 text-center">
         <h1 className="text-xl font-extrabold tracking-tight">There&apos;s nothing to check out</h1>
         <p className="mt-2 text-sm text-amz-muted">Your cart is empty or no items are selected.</p>
         <ButtonLink href="/cart" variant="brand" className="mt-4">Return to cart</ButtonLink>
@@ -319,22 +319,22 @@ export function Checkout() {
   };
 
   const summary = (
-    <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5 text-sm">
+    <div className="rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5 text-sm">
       <Button variant="brand" size="lg" className="w-full" disabled={!canPlace || placing} onClick={placeOrder}>
         {placing ? "Placing your order…" : "Place your order"}
       </Button>
       <p className="mt-2 text-center text-xs text-amz-muted">
         {canPlace ? "By placing your order, you agree to our demo terms." : "Complete the steps to place your order."}
       </p>
-      <hr className="my-3 border-[#e3ecf7]" />
+      <hr className="my-3 border-line" />
       <h3 className="mb-2 text-lg font-extrabold tracking-tight">Order Summary</h3>
       <dl className="space-y-1">
         <div className="flex justify-between"><dt>Items ({itemCount(lines)}):</dt><dd>{formatPrice(totals.subtotal)}</dd></div>
         <div className="flex justify-between"><dt>Shipping &amp; handling:</dt><dd>{ship === 0 ? "FREE" : formatPrice(ship)}</dd></div>
         <div className="flex justify-between"><dt>Estimated tax:</dt><dd>{formatPrice(totals.tax)}</dd></div>
       </dl>
-      <hr className="my-3 border-[#e3ecf7]" />
-      <div className="flex justify-between text-lg font-extrabold text-amz-nav">
+      <hr className="my-3 border-line" />
+      <div className="flex justify-between text-lg font-extrabold text-strong">
         <span>Order total:</span>
         <span>{formatPrice(totals.total)}</span>
       </div>
@@ -394,8 +394,8 @@ export function Checkout() {
           />
         </Step>
         <Step n={3} title="Review items and delivery" open={step === 3}>
-          <div className="rounded-xl border border-[#d6e4f5] p-4">
-            <p className="font-bold text-[#1a7f37]">Arriving {deliveryDate}</p>
+          <div className="rounded-xl border border-amz-border p-4">
+            <p className="font-bold text-amz-green">Arriving {deliveryDate}</p>
             <div className="mt-3 grid gap-4 md:grid-cols-[1fr_240px]">
               <ul className="space-y-3">
                 {lines.map((l) => (
@@ -419,7 +419,7 @@ export function Checkout() {
                     <label key={k} className="flex cursor-pointer items-start gap-2 py-1 text-sm">
                       <input type="radio" name="speed" checked={speed === k} onChange={() => setSpeed(k)} className="mt-1 accent-brand" />
                       <span>
-                        <span className="font-bold text-[#1a7f37]">{formatLongDate(addDays(new Date(), SHIPPING_OPTIONS[k].days))}</span>
+                        <span className="font-bold text-amz-green">{formatLongDate(addDays(new Date(), SHIPPING_OPTIONS[k].days))}</span>
                         <br />
                         {cost === 0 ? "FREE Standard Delivery" : `${formatPrice(cost)} - ${k === "express" ? "Next-Day Delivery" : "Standard Delivery"}`}
                       </span>
@@ -434,7 +434,7 @@ export function Checkout() {
               Place your order
             </Button>
             <div>
-              <p className="text-lg font-extrabold text-amz-nav">Order total: {formatPrice(totals.total)}</p>
+              <p className="text-lg font-extrabold text-strong">Order total: {formatPrice(totals.total)}</p>
               <p className="text-xs text-amz-muted">By placing your order, you agree to our demo terms.</p>
             </div>
           </div>

@@ -34,7 +34,7 @@ export function AppliedFilters({ params }: { params: SearchParams }) {
           key={chip.label}
           href={chip.href}
           aria-label={`Remove filter: ${chip.label}`}
-          className="flex items-center gap-1.5 rounded-full bg-sky-tint py-1 pl-3 pr-2 text-sm font-medium text-brand ring-1 ring-[#bcd6f7] transition-colors hover:bg-brand hover:text-white hover:ring-brand"
+          className="flex items-center gap-1.5 rounded-full bg-sky-tint py-1 pl-3 pr-2 text-sm font-medium text-brand ring-1 ring-rim transition-colors hover:bg-brand hover:text-white hover:ring-brand"
         >
           {chip.label}
           <X size={14} strokeWidth={2.5} />

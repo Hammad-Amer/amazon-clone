@@ -10,8 +10,8 @@ export function FreeShippingNote({ amount }: { amount: number }) {
   if (amount === 0) return null;
   if (qualifiesForFreeShipping(amount)) {
     return (
-      <p className="flex gap-1.5 rounded-xl bg-[#e8f6ec] p-2.5 text-xs text-[#1a7f37]">
-        <CircleCheck size={18} className="shrink-0 fill-[#1a7f37] text-white" />
+      <p className="flex gap-1.5 rounded-xl bg-ok-soft p-2.5 text-xs text-amz-green">
+        <CircleCheck size={18} className="shrink-0 fill-amz-green text-white" />
         <span>
           Your order qualifies for FREE delivery.{" "}
           <span className="text-amz-muted">Choose this option at checkout.</span>

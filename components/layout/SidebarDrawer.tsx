@@ -8,7 +8,7 @@ import { DEPARTMENTS, categoryLabel, type Department } from "@/lib/departments";
 import { useAuth } from "@/store/auth";
 import { useUI } from "@/store/ui";
 
-const itemCls = "flex w-full items-center justify-between px-9 py-3 text-left text-sm text-amz-text hover:bg-[#eaeded]";
+const itemCls = "flex w-full items-center justify-between px-9 py-3 text-left text-sm text-amz-text hover:bg-sky";
 
 export function SidebarDrawer() {
   const open = useUI((s) => s.sidebarOpen);
@@ -86,7 +86,7 @@ export function SidebarDrawer() {
             <>
               <button
                 onClick={() => setDept(null)}
-                className="flex w-full items-center gap-3 border-b border-amz-border px-9 py-3.5 text-sm font-bold uppercase text-amz-text hover:bg-[#eaeded]"
+                className="flex w-full items-center gap-3 border-b border-amz-border px-9 py-3.5 text-sm font-bold uppercase text-amz-text hover:bg-sky"
               >
                 <ArrowLeft size={18} /> Main menu
               </button>

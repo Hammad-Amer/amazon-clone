@@ -8,7 +8,7 @@ function StarRow({ size, filled }: { size: number; filled: boolean }) {
     <span className="flex shrink-0" style={{ width: size * 5 }}>
       {[0, 1, 2, 3, 4].map((i) => (
         <svg key={i} width={size} height={size} viewBox="0 0 24 24" aria-hidden className="shrink-0">
-          <path d={STAR} fill={filled ? "#de7921" : "#fff"} stroke="#de7921" strokeWidth="1.4" strokeLinejoin="round" />
+          <path d={STAR} style={{ fill: filled ? "#de7921" : "var(--color-surface)" }} stroke="#de7921" strokeWidth="1.4" strokeLinejoin="round" />
         </svg>
       ))}
     </span>

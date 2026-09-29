@@ -44,7 +44,7 @@ export function Drawer({
         ref={panelRef}
         tabIndex={-1}
         className={cn(
-          "absolute top-0 flex h-full w-[85vw] max-w-[365px] flex-col bg-white outline-none",
+          "absolute top-0 flex h-full w-[85vw] max-w-[365px] flex-col bg-surface outline-none",
           side === "left" ? "left-0 animate-slide-in" : "right-0",
           className,
         )}
@@ -91,7 +91,7 @@ export function Modal({
       <div className="absolute inset-0 bg-black/60 animate-fade-in" onClick={onClose} />
       <div
         className={cn(
-          "relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl animate-fade-in",
+          "relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-lg bg-surface shadow-2xl animate-fade-in",
           size === "lg" ? "max-w-xl" : "max-w-sm",
         )}
       >

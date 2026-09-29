@@ -152,7 +152,7 @@ export function Reviews({
               );
             })}
         </ul>
-        <hr className="my-6 border-[#e3ecf7]" />
+        <hr className="my-6 border-line" />
         <h3 className="text-lg font-bold">Review this product</h3>
         <p className="mt-1 text-sm">Share your thoughts with other customers</p>
         {user ? (
@@ -187,7 +187,7 @@ export function Reviews({
               const marked = !!helpful[e.key];
               const count = e.helpfulBase + (marked ? 1 : 0);
               return (
-                <li key={e.key} id={e.own ? `review-${e.own.id}` : undefined} className={cn(e.own && "scroll-mt-24 rounded-2xl bg-sky p-4 ring-1 ring-[#bcd6f7]")}>
+                <li key={e.key} id={e.own ? `review-${e.own.id}` : undefined} className={cn(e.own && "scroll-mt-24 rounded-2xl bg-sky p-4 ring-1 ring-rim")}>
                   <div className="flex items-center gap-2 text-[13px]">
                     <CircleUserRound size={30} strokeWidth={1.2} className="text-[#7b93b5]" />
                     {e.name}
@@ -198,7 +198,7 @@ export function Reviews({
                     <span className="text-sm font-bold">{e.title}</span>
                   </div>
                   <p className="mt-1 text-[13px] text-amz-muted">Reviewed in the United States on {formatDate(e.date)}</p>
-                  {e.verified && <p className="text-xs font-bold text-[#1a7f37]">✓ Verified Purchase</p>}
+                  {e.verified && <p className="text-xs font-bold text-amz-green">✓ Verified Purchase</p>}
                   <p className="mt-1 whitespace-pre-line text-sm">{e.body}</p>
                   {count > 0 && (
                     <p className="mt-2 text-[13px] text-amz-muted">
@@ -217,12 +217,12 @@ export function Reviews({
                         </button>
                       </>
                     ) : marked ? (
-                      <span className="text-[#1a7f37]">✓ Thank you for your feedback.</span>
+                      <span className="text-amz-green">✓ Thank you for your feedback.</span>
                     ) : (
                       <button
                         type="button"
                         onClick={() => markHelpful(e.key)}
-                        className="rounded-full px-5 py-1 ring-1 ring-[#bcd6f7] hover:bg-sky-tint hover:text-brand"
+                        className="rounded-full px-5 py-1 ring-1 ring-rim hover:bg-sky-tint hover:text-brand"
                       >
                         Helpful
                       </button>

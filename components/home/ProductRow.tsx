@@ -41,7 +41,7 @@ export function ProductRow({
   };
 
   return (
-    <section className={framed ? homeCardCls : "bg-white px-5 py-4"}>
+    <section className={framed ? homeCardCls : "bg-surface px-5 py-4"}>
       <div className="mb-2 flex items-baseline gap-3">
         <h2 className={cn("text-[21px] leading-tight", framed ? "font-extrabold tracking-tight" : "font-bold")}>{title}</h2>
         {href && (
@@ -67,7 +67,7 @@ export function ProductRow({
                   variant === "image"
                     ? "relative h-[150px] w-[130px] overflow-hidden rounded-lg md:h-[200px] md:w-[170px]"
                     : "relative aspect-square w-full overflow-hidden rounded-lg",
-                  framed ? "rounded-xl bg-sky" : "bg-[#f5f6f6]",
+                  framed ? "rounded-xl bg-sky" : "bg-sky",
                 )}
               >
                 <Image
@@ -106,14 +106,14 @@ export function ProductRow({
         <button
           onClick={() => page(-1)}
           aria-label={`Scroll ${title} left`}
-          className="absolute left-0 top-[35%] hidden h-24 w-11 -translate-y-1/2 items-center justify-center rounded-r-md border border-amz-border bg-white/95 shadow-md group-hover:flex"
+          className="absolute left-0 top-[35%] hidden h-24 w-11 -translate-y-1/2 items-center justify-center rounded-r-md border border-amz-border bg-surface/95 shadow-md group-hover:flex"
         >
           <ChevronLeft size={28} />
         </button>
         <button
           onClick={() => page(1)}
           aria-label={`Scroll ${title} right`}
-          className="absolute right-0 top-[35%] hidden h-24 w-11 -translate-y-1/2 items-center justify-center rounded-l-md border border-amz-border bg-white/95 shadow-md group-hover:flex"
+          className="absolute right-0 top-[35%] hidden h-24 w-11 -translate-y-1/2 items-center justify-center rounded-l-md border border-amz-border bg-surface/95 shadow-md group-hover:flex"
         >
           <ChevronRight size={28} />
         </button>

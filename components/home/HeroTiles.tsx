@@ -54,7 +54,8 @@ export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
             className="group relative flex aspect-[5/7] w-[72vw] shrink-0 snap-start flex-col overflow-hidden rounded-2xl p-4 sm:w-[44vw] md:w-[31%] lg:w-[23.5%] xl:w-[calc((100%-3rem)/5.25)]"
             style={{ background: t.background }}
           >
-            <div className={cn("relative z-10", t.dark ? "text-white" : "text-amz-text")}>
+            {/* Pastel tiles keep dark text in both themes. */}
+            <div className={cn("relative z-10", t.dark ? "text-white" : "text-[#0f1111]")}>
               {t.eyebrow && <p className="mb-1 text-sm font-medium md:text-base">{t.eyebrow}</p>}
               <h2 className="text-[26px] font-extrabold leading-[1.05] tracking-tight md:text-[30px]">{t.title}</h2>
             </div>
@@ -93,7 +94,7 @@ export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
         onClick={() => page(-1)}
         aria-label="Previous"
         className={cn(
-          "absolute left-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-amz-nav shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
+          "absolute left-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-surface text-strong shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
           edges.start && "pointer-events-none opacity-0",
         )}
       >
@@ -103,7 +104,7 @@ export function HeroTiles({ tiles }: { tiles: HeroTile[] }) {
         onClick={() => page(1)}
         aria-label="Next"
         className={cn(
-          "absolute right-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-amz-nav shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
+          "absolute right-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-surface text-strong shadow-[0_4px_16px_rgba(11,36,71,0.18)] transition hover:bg-brand hover:text-white md:flex",
           edges.end && "pointer-events-none opacity-0",
         )}
       >

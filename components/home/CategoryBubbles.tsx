@@ -17,7 +17,7 @@ export function CategoryBubbles({ categories }: { categories: string[] }) {
           return (
             <li key={c} className="shrink-0">
               <Link href={`/s?c=${c}`} className="group flex w-[84px] flex-col items-center gap-2 md:w-[100px]">
-                <span className="relative size-[76px] overflow-hidden rounded-full bg-white shadow-[0_2px_10px_rgba(11,36,71,0.08)] ring-2 ring-transparent transition group-hover:-translate-y-0.5 group-hover:ring-brand md:size-[92px]">
+                <span className="relative size-[76px] overflow-hidden rounded-full bg-surface shadow-[0_2px_10px_rgba(11,36,71,0.08)] ring-2 ring-transparent transition group-hover:-translate-y-0.5 group-hover:ring-brand md:size-[92px]">
                   <Image
                     src={product.thumbnail}
                     alt=""

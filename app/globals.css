@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Dark mode follows the data-theme attribute that the inline script in app/layout.tsx sets. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
 
@@ -27,6 +30,19 @@
   --color-sky: #eef5fc;
   --color-sky-tint: #e1edfb;
 
+  /* Surfaces, lines and text that flip in dark mode. */
+  --color-surface: #ffffff;
+  --color-line: #e3ecf7;
+  --color-rim: #bcd6f7;
+  --color-field: #c9d6e6;
+  --color-field-strong: #a9b8cc;
+  --color-strong: #19376d;
+  --color-ok-soft: #e8f6ec;
+  --color-tint-1: #e8f1fd;
+  --color-tint-2: #eceafd;
+  --color-tint-3: #e6f5f8;
+  --color-tint-4: #f1f5fb;
+
   --animate-slide-in: slide-in 0.25s ease-out;
   --animate-fade-in: fade-in 0.2s ease-out;
 
@@ -42,6 +58,44 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-amz-header: #070f1c;
+  --color-amz-nav: #0e1b31;
+  --color-amz-footer: #0e1b31;
+  --color-amz-footer-dark: #070f1c;
+  --color-amz-backtop: #16294a;
+  --color-amz-bg: #0a1321;
+  --color-amz-link: #6aaeff;
+  --color-amz-link-hover: #93c3ff;
+  --color-amz-deal: #e8385a;
+  --color-amz-green: #4cc36b;
+  --color-amz-text: #e4ebf5;
+  --color-amz-muted: #97a6bb;
+  --color-amz-border: #243650;
+  --color-amz-focus: #6aaeff;
+  --color-brand: #3b8cf0;
+  --color-brand-hover: #5a9ff4;
+  --color-sky: #0a1321;
+  --color-sky-tint: #172a47;
+  --color-surface: #111d31;
+  --color-line: #1c2c45;
+  --color-rim: #2c4670;
+  --color-field: #34496a;
+  --color-field-strong: #4a6186;
+  --color-strong: #a8c8f5;
+  --color-ok-soft: #12301f;
+  --color-tint-1: #172a47;
+  --color-tint-2: #1f2446;
+  --color-tint-3: #15303a;
+  --color-tint-4: #18253a;
+}
+
+/* Product shots have transparent backgrounds: multiply would blacken them on dark boxes. */
+[data-theme="dark"] .mix-blend-multiply {
+  mix-blend-mode: normal;
 }
 
 body {

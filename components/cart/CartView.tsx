@@ -17,7 +17,7 @@ import { useHydrated } from "@/store/StoreHydrator";
 import { CartSummary } from "./CartSummary";
 
 const actionCls = "text-xs font-medium text-brand hover:text-brand-hover hover:underline";
-const cardCls = "rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)]";
+const cardCls = "rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)]";
 
 function Checkbox({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
   return (
@@ -28,7 +28,7 @@ function Checkbox({ checked, onChange, label }: { checked: boolean; onChange: ()
       onClick={onChange}
       className={cn(
         "flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border",
-        checked ? "border-brand bg-brand text-white" : "border-[#a9b8cc] bg-white",
+        checked ? "border-brand bg-brand text-white" : "border-field-strong bg-surface",
       )}
     >
       {checked && <Check size={13} strokeWidth={3} />}
@@ -40,7 +40,7 @@ function QtyStepper({ item }: { item: CartItem }) {
   const setQty = useCart((s) => s.setQty);
   const max = maxQtyFor(item.product);
   return (
-    <div className="flex h-8 items-center rounded-full bg-sky-tint text-brand ring-1 ring-[#bcd6f7]">
+    <div className="flex h-8 items-center rounded-full bg-sky-tint text-brand ring-1 ring-rim">
       <button
         onClick={() => setQty(item.product.id, item.qty - 1)}
         aria-label={item.qty === 1 ? "Delete" : "Decrease quantity"}
@@ -70,7 +70,7 @@ function ItemRow({ item }: { item: CartItem }) {
   const toggleSelected = useCart((s) => s.toggleSelected);
 
   return (
-    <li className="flex gap-3 border-b border-[#e3ecf7] py-4 last:border-0">
+    <li className="flex gap-3 border-b border-line py-4 last:border-0">
       {!item.saved && (
         <div className="pt-12">
           <Checkbox checked={item.selected} onChange={() => toggleSelected(p.id)} label={`Select ${p.title}`} />
@@ -87,7 +87,7 @@ function ItemRow({ item }: { item: CartItem }) {
           <Price amount={p.price} size="sm" className="hidden font-bold sm:inline-flex" />
         </div>
         <p className="mt-0.5 text-lg font-bold sm:hidden">{formatPrice(p.price)}</p>
-        <p className={cn("text-xs", p.stock > 10 ? "text-[#1a7f37]" : "text-amz-deal")}>
+        <p className={cn("text-xs", p.stock > 10 ? "text-amz-green" : "text-amz-deal")}>
           {p.stock > 10 ? "In Stock" : `Only ${p.stock} left in stock - order soon.`}
         </p>
         {p.fastDelivery && <p className="text-xs">FREE delivery available at checkout</p>}
@@ -98,11 +98,11 @@ function ItemRow({ item }: { item: CartItem }) {
         )}
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
           {!item.saved && <QtyStepper item={item} />}
-          <span className="h-4 w-px bg-[#d6e4f5]" />
+          <span className="h-4 w-px bg-amz-border" />
           <button className={actionCls} onClick={() => remove(p.id)}>
             Delete
           </button>
-          <span className="h-4 w-px bg-[#d6e4f5]" />
+          <span className="h-4 w-px bg-amz-border" />
           {item.saved ? (
             <button className={actionCls} onClick={() => setSaved(p.id, false)}>
               Move to cart
@@ -112,7 +112,7 @@ function ItemRow({ item }: { item: CartItem }) {
               Save for later
             </button>
           )}
-          <span className="h-4 w-px bg-[#d6e4f5]" />
+          <span className="h-4 w-px bg-amz-border" />
           <Link className={actionCls} href={`/s?c=${p.category}`}>
             Compare with similar items
           </Link>
@@ -181,8 +181,8 @@ export function CartView() {
   if (!hydrated) {
     return (
       <div className="mx-auto grid max-w-[1500px] gap-5 bg-sky px-3 py-5 md:px-5 lg:grid-cols-[1fr_300px]">
-        <div className="h-96 animate-pulse rounded-2xl bg-white" />
-        <div className="h-40 animate-pulse rounded-2xl bg-white" />
+        <div className="h-96 animate-pulse rounded-2xl bg-surface" />
+        <div className="h-40 animate-pulse rounded-2xl bg-surface" />
       </div>
     );
   }
@@ -207,13 +207,13 @@ export function CartView() {
                 <button className={actionCls + " text-sm"} onClick={() => setAllSelected(!allSelected)}>
                   {allSelected ? "Deselect all items" : "Select all items"}
                 </button>
-                <p className="hidden border-b border-[#e3ecf7] pb-1 text-right text-sm text-amz-muted sm:block">Price</p>
+                <p className="hidden border-b border-line pb-1 text-right text-sm text-amz-muted sm:block">Price</p>
                 <ul>
                   {active.map((i) => (
                     <ItemRow key={i.product.id} item={i} />
                   ))}
                 </ul>
-                <div className="border-t border-[#e3ecf7] py-3 text-right text-lg">
+                <div className="border-t border-line py-3 text-right text-lg">
                   <InlineSubtotal />
                 </div>
               </>

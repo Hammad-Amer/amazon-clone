@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/dp/[id]">): Promi
 }
 
 /** White floating card that each product-page section sits in. */
-const sectionCls = "rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(11,36,71,0.07)] md:p-6";
+const sectionCls = "rounded-2xl bg-surface p-4 shadow-[0_2px_12px_rgba(11,36,71,0.07)] md:p-6";
 
 function aboutBullets(p: Product): string[] {
   return [
@@ -71,14 +71,14 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
         <ol className="flex flex-wrap items-center gap-1.5 text-amz-muted">
           {dept && (
             <li className="flex items-center gap-1.5">
-              <Link href={`/s?c=${dept.slug}`} className="rounded-full px-2 py-0.5 hover:bg-white hover:text-brand">
+              <Link href={`/s?c=${dept.slug}`} className="rounded-full px-2 py-0.5 hover:bg-surface hover:text-brand">
                 {dept.label}
               </Link>
               <ChevronRight size={12} aria-hidden />
             </li>
           )}
           <li>
-            <Link href={`/s?c=${product.category}`} className="rounded-full bg-white px-2.5 py-0.5 font-medium text-amz-nav shadow-[0_1px_4px_rgba(11,36,71,0.08)] hover:text-brand">
+            <Link href={`/s?c=${product.category}`} className="rounded-full bg-surface px-2.5 py-0.5 font-medium text-strong shadow-[0_1px_4px_rgba(11,36,71,0.08)] hover:text-brand">
               {categoryLabel(product.category)}
             </Link>
           </li>
@@ -146,7 +146,7 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
             <dl className="mt-5 grid grid-cols-[minmax(0,10rem)_1fr] gap-x-4 gap-y-2 text-sm">
               {specs.slice(0, 5).map(([k, v]) => (
                 <div key={k} className="contents">
-                  <dt className="font-bold text-amz-nav">{k}</dt>
+                  <dt className="font-bold text-strong">{k}</dt>
                   <dd>{v}</dd>
                 </div>
               ))}
@@ -195,17 +195,17 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
         )}
         <section className={sectionCls}>
           <h2 className="mb-4 text-2xl font-extrabold tracking-tight">Product information</h2>
-          <div className="max-w-2xl overflow-hidden rounded-xl ring-1 ring-[#d6e4f5]">
+          <div className="max-w-2xl overflow-hidden rounded-xl ring-1 ring-amz-border">
             <table className="w-full text-sm">
               <tbody>
                 {specs.map(([k, v]) => (
-                  <tr key={k} className="border-b border-[#e3ecf7]">
-                    <th className="w-1/2 bg-sky px-4 py-2.5 text-left font-medium text-amz-nav md:w-2/5">{k}</th>
+                  <tr key={k} className="border-b border-line">
+                    <th className="w-1/2 bg-sky px-4 py-2.5 text-left font-medium text-strong md:w-2/5">{k}</th>
                     <td className="px-4 py-2.5">{v}</td>
                   </tr>
                 ))}
                 <tr>
-                  <th className="bg-sky px-4 py-2.5 text-left font-medium text-amz-nav">Customer Reviews</th>
+                  <th className="bg-sky px-4 py-2.5 text-left font-medium text-strong">Customer Reviews</th>
                   <td className="flex items-center gap-2 px-4 py-2.5">
                     <Stars rating={product.rating} size={14} /> {product.rating.toFixed(1)} out of 5 stars
                   </td>

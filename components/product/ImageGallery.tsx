@@ -32,7 +32,7 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
         {images.length > 1 && (
           <div className="mt-2 flex justify-center gap-1.5">
             {images.map((src, i) => (
-              <span key={src} className={cn("h-2 w-2 rounded-full transition-all", i === active ? "w-5 bg-brand" : "bg-[#c9d6e6]")} />
+              <span key={src} className={cn("h-2 w-2 rounded-full transition-all", i === active ? "w-5 bg-brand" : "bg-field")} />
             ))}
           </div>
         )}
@@ -51,7 +51,7 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
                 aria-current={i === active}
                 className={cn(
                   "relative block h-14 w-14 overflow-hidden rounded-xl bg-sky transition",
-                  i === active ? "ring-2 ring-brand" : "ring-1 ring-[#d6e4f5] hover:ring-brand"
+                  i === active ? "ring-2 ring-brand" : "ring-1 ring-amz-border hover:ring-brand"
                 )}
               >
                 <Image src={src} alt="" fill sizes="48px" className="object-contain p-0.5 mix-blend-multiply" />

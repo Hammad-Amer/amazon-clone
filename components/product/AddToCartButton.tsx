@@ -12,7 +12,7 @@ import { cn } from "@/lib/cn";
 export function showAddedToast(product: ProductSummary, count = 1) {
   toast.custom(
     (id) => (
-      <div className="flex w-[340px] items-center gap-3 rounded-2xl bg-white p-3 shadow-[0_8px_30px_rgba(11,36,71,0.18)] ring-1 ring-[#d6e4f5]">
+      <div className="flex w-[340px] items-center gap-3 rounded-2xl bg-surface p-3 shadow-[0_8px_30px_rgba(11,36,71,0.18)] ring-1 ring-amz-border">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-sky">
           <Image src={product.thumbnail} alt="" fill sizes="56px" className="object-contain mix-blend-multiply" />
         </div>

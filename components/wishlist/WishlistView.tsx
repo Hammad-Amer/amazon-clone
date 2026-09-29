@@ -20,11 +20,11 @@ export function WishlistView() {
   const add = useCart((s) => s.add);
   const user = useAuth((s) => s.user);
 
-  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-white" />;
+  if (!hydrated) return <div className="mx-auto h-80 max-w-4xl animate-pulse rounded-2xl bg-surface" />;
 
   return (
-    <div className="mx-auto max-w-4xl rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5">
-      <div className="flex flex-wrap items-end justify-between gap-2 border-b border-[#e3ecf7] pb-3">
+    <div className="mx-auto max-w-4xl rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-5">
+      <div className="flex flex-wrap items-end justify-between gap-2 border-b border-line pb-3">
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-extrabold tracking-tight">
             <Heart size={22} className="fill-amz-deal text-amz-deal" aria-hidden />
@@ -62,7 +62,7 @@ export function WishlistView() {
       ) : (
         <ul>
           {items.map((p) => (
-            <li key={p.id} className="flex gap-4 border-b border-[#e3ecf7] py-4 last:border-0">
+            <li key={p.id} className="flex gap-4 border-b border-line py-4 last:border-0">
               <Link href={`/dp/${p.id}`} className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-sky sm:h-32 sm:w-32">
                 <Image src={p.thumbnail} alt={p.title} fill sizes="128px" className="object-contain p-2 mix-blend-multiply" />
               </Link>

@@ -17,7 +17,7 @@ const PRICE_BUCKETS = [
 const linkCls = "text-sm text-amz-text hover:text-brand";
 
 function Heading({ children }: { children: React.ReactNode }) {
-  return <h3 className="mb-2 text-[13px] font-extrabold uppercase tracking-wider text-amz-nav">{children}</h3>;
+  return <h3 className="mb-2 text-[13px] font-extrabold uppercase tracking-wider text-strong">{children}</h3>;
 }
 
 function CheckLink({ href, checked, children }: { href: string; checked: boolean; children: React.ReactNode }) {
@@ -26,7 +26,7 @@ function CheckLink({ href, checked, children }: { href: string; checked: boolean
       <span
         className={cn(
           "flex h-4 w-4 shrink-0 items-center justify-center rounded border",
-          checked ? "border-brand bg-brand text-white" : "border-[#a9b8cc] bg-white",
+          checked ? "border-brand bg-brand text-white" : "border-field-strong bg-surface",
         )}
       >
         {checked && <Check size={12} strokeWidth={3} />}
@@ -148,7 +148,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
             defaultValue={params.min}
             placeholder="$ Min"
             aria-label="Minimum price"
-            className="w-[72px] rounded-lg border border-[#c9d6e6] px-2 py-1 text-sm focus:border-brand"
+            className="w-[72px] rounded-lg border border-field px-2 py-1 text-sm focus:border-brand"
           />
           <input
             name="max"
@@ -157,7 +157,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
             defaultValue={params.max}
             placeholder="$ Max"
             aria-label="Maximum price"
-            className="w-[72px] rounded-lg border border-[#c9d6e6] px-2 py-1 text-sm focus:border-brand"
+            className="w-[72px] rounded-lg border border-field px-2 py-1 text-sm focus:border-brand"
           />
           <button className="rounded-full bg-brand px-3 py-1 text-sm font-medium text-white hover:bg-brand-hover">
             Go

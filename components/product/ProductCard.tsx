@@ -11,7 +11,7 @@ import { Stars } from "./Rating";
 export function ProductCard({ product: p, priority = false }: { product: ProductSummary; priority?: boolean }) {
   const bought = boughtLabel(p.boughtPastMonth);
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(11,36,71,0.12)]">
+    <article className="group flex flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_2px_12px_rgba(11,36,71,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(11,36,71,0.12)]">
       <Link href={`/dp/${p.id}`} className="relative m-2 mb-0 block aspect-square overflow-hidden rounded-xl bg-sky">
         {p.badge && (
           <span
@@ -56,7 +56,7 @@ export function ProductCard({ product: p, priority = false }: { product: Product
         <p className="text-[13px] text-amz-text">
           {p.fastDelivery ? (
             <>
-              <span className="font-bold text-[#1a7f37]">FREE delivery</span> <DeliveryDate days={2} />
+              <span className="font-bold text-amz-green">FREE delivery</span> <DeliveryDate days={2} />
             </>
           ) : (
             <>

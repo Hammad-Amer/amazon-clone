@@ -9,14 +9,14 @@ export function Logo({ dark = false, className }: { dark?: boolean; className?: 
       aria-label="amazon.clone home"
       className={cn(
         "flex shrink-0 flex-col items-start rounded-sm border border-transparent px-1.5 pb-1 pt-1.5",
-        dark ? "hover:border-amz-nav" : "hover:border-white",
+        dark ? "hover:border-strong" : "hover:border-white",
         className,
       )}
     >
       <span
         className={cn(
           "text-[22px] font-extrabold leading-none tracking-[-0.04em]",
-          dark ? "text-amz-nav" : "text-white",
+          dark ? "text-strong" : "text-white",
         )}
       >
         amazon<span className={cn("text-[15px] font-bold tracking-normal", dark ? "text-brand" : "text-amz-search")}>.clone</span>
