@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# amazon.clone
 
-## Getting Started
+An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App Router)** and **Tailwind CSS v4**, deployed on Vercel.
 
-First, run the development server:
+**Live demo:** _add the Vercel URL here_
+**Quick look:** open the site → **Sign in → "Use demo account"**. The demo account has an order history, so personalized rows, _Your Orders_ and _Buy it again_ are populated immediately.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+**Browse & discover**
+- Homepage: hero carousel (autoplay, swipe, arrows), category cards, Today's Deals strip, best-seller rows
+- Personalized rows: _Keep shopping for_ (browsing history), _Buy it again_ (orders), _Inspired by your browsing history_
+- Header search with department selector, **live autocomplete** (keyboard navigation, "in Men's Shoes" suggestions) and **recent searches**
+- Sidebar menu ("☰ All") with a department sub-menu, plus a nav belt
+- Deliver-to location picker, shown in the header and buy box
+
+**Search & filter** (`/s`)
+- Relevance search (word-prefix matching so "men" doesn't match "women", synonyms such as "clothes")
+- Filters for department/category, brand, customer rating, price buckets and custom range, and deals
+- Sorting (featured, price, rating, newest, best sellers) and pagination
+- Every filter lives in the URL, so results are shareable and the back button works. Filters open in a drawer on mobile.
+
+**Product page** (`/dp/[id]`, statically generated for all 184 products)
+- Image gallery with thumbnail rail and hover zoom (swipe on mobile)
+- Price with discount and list price, stock warnings, delivery dates, quantity
+- Buy box: **Add to cart**, **Buy Now** (straight to checkout), Add to List
+- Specs table, "About this item", rating histogram, customer reviews, related products
+
+**Cart → checkout → orders**
+- "Added to cart" confirmation page with recommendations
+- Cart with per-item select, quantity stepper, **Save for later / Move to cart**, free-shipping progress, "customers also bought"
+- Sign in / create account (validated forms, `?next=` redirects), with checkout requiring sign-in
+- 3-step checkout: address (saved addresses reused), payment (Luhn-validated test card or cash on delivery), delivery speed. The order summary covers shipping and tax.
+- Order confirmation, order details with shipment progress, _Your Orders_ with tabs and _Buy it again_
+- Wish List with move-to-cart
+
+**Quality**
+- Fully responsive: desktop layout matches Amazon, plus a dedicated mobile header, drawers and stacked buy box
+- Loading skeletons, empty states, custom 404, keyboard-accessible menus and dialogs, visible focus rings
+- Unit tests (Vitest) for search, cart math, payment validation and order logic
+
+## Tech & architecture
+
+| Concern | Choice |
+| --- | --- |
+| Framework | Next.js 16 App Router, React 19, TypeScript |
+| Styling | Tailwind CSS v4 with Amazon design tokens in `app/globals.css` |
+| Data | [DummyJSON](https://dummyjson.com) catalog snapshotted once into `data/products.json` (`npm run fetch-products`); no runtime API calls |
+| State | Zustand stores persisted to `localStorage` (cart, auth, orders, history, wishlist, location) |
+| Other | `next/image`, embla-carousel, lucide-react, sonner |
+
+```
+app/(shop)/      pages with the full header/footer: home, /s, /dp/[id], /cart, /orders, /deals, /wishlist
+app/(focus)/     distraction-free pages: /signin, /register, /checkout
+app/api/         suggest (autocomplete), products (by id), recommendations
+lib/             pure logic: search, cart, orders, payment, formatting (unit-tested)
+store/           client state (Zustand + persist)
+components/      layout, home, product, search, cart, checkout, orders, ui
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Server-first:** catalog reads, search and filtering run in Server Components off `searchParams`. Client components are limited to interactive parts.
+- **Hydration-safe persistence:** stores use `skipHydration` and are rehydrated after mount, so server HTML and the first client render always match.
+- **No backend by design:** accounts and orders live in the browser, and passwords are SHA-256 hashed. This keeps the demo free to host and zero-config. The store layer is isolated in `store/`, so swapping in a real database later touches only that layer.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev       # http://localhost:3000
+npm test          # unit tests
+npm run build     # production build
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Not affiliated with Amazon.com, Inc. Built for a take-home assignment; the logo is an original wordmark._
