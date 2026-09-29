@@ -177,6 +177,25 @@ export function searchProducts(all: Product[], params: SearchParams): SearchResu
   };
 }
 
+/**
+ * Like searchProducts, but if the keyword matches products and only the filters
+ * (department, brand, price, rating, deals) empty the results, fall back to the
+ * keyword alone rather than showing a dead end.
+ */
+export function searchWithFallback(
+  all: Product[],
+  params: SearchParams,
+): { result: SearchResult; params: SearchParams; relaxed: boolean } {
+  const result = searchProducts(all, params);
+  const filtered =
+    !!params.c || !!params.brands?.length || params.min !== undefined || params.max !== undefined || params.rating !== undefined || !!params.deals;
+  if (result.total > 0 || !params.k || !filtered) return { result, params, relaxed: false };
+
+  const broadParams: SearchParams = { k: params.k, ...(params.sort && { sort: params.sort }) };
+  const broad = searchProducts(all, broadParams);
+  return broad.total > 0 ? { result: broad, params: broadParams, relaxed: true } : { result, params, relaxed: false };
+}
+
 type RawParams = Record<string, string | string[] | undefined>;
 
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);

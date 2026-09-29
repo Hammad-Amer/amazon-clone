@@ -3,7 +3,7 @@
 import { ChevronDown, Clock, Search, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
-import { DEPARTMENTS, filterLabel } from "@/lib/departments";
+import { DEPARTMENTS, departmentOf, filterLabel } from "@/lib/departments";
 import { cn } from "@/lib/cn";
 import type { Suggestion } from "@/lib/types";
 
@@ -116,6 +116,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
       <div ref={rootRef} className="relative z-40 flex-1">
         <form
           role="search"
+          action="/s" // native GET fallback if someone submits before JS has loaded
           onSubmit={(e) => {
             e.preventDefault();
             const opt = options[active];
@@ -128,6 +129,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
             <span className="max-w-40 truncate">{c ? filterLabel(c) : "All"}</span>
             <ChevronDown size={12} />
             <select
+              name="c"
               aria-label="Select the department you want to search in"
               value={c}
               onChange={(e) => setC(e.target.value)}
@@ -143,6 +145,7 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
           </label>
           <input
             ref={inputRef}
+            name="k"
             value={k}
             onChange={(e) => {
               setK(e.target.value);
@@ -249,8 +252,11 @@ function Highlight({ text, q }: { text: string; q: string }) {
 function SearchFromParams() {
   const params = useSearchParams();
   const k = params.get("k") ?? "";
+  // The dropdown only offers departments, so a category filter (e.g. Men's Shirts) scopes
+  // the next search to its department (Clothing, Shoes & Jewelry), like Amazon does.
   const c = params.get("c") ?? "";
-  return <SearchForm key={`${k}|${c}`} initialK={k} initialC={c} />;
+  const scope = DEPARTMENTS.some((d) => d.slug === c) ? c : (departmentOf(c)?.slug ?? "");
+  return <SearchForm key={`${k}|${scope}`} initialK={k} initialC={scope} />;
 }
 
 export function SearchBar() {

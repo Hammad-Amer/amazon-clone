@@ -6,7 +6,7 @@ import { MobileFilters, SortSelect } from "@/components/search/SearchControls";
 import { ButtonLink } from "@/components/ui/Button";
 import { filterLabel } from "@/lib/departments";
 import { getAllProducts, getBestSellers, toSummary } from "@/lib/products";
-import { SORT_OPTIONS, parseSearchParams, searchProducts, type SortKey } from "@/lib/search";
+import { SORT_OPTIONS, parseSearchParams, searchWithFallback, type SortKey } from "@/lib/search";
 import { searchHref } from "@/lib/url";
 import { cn } from "@/lib/cn";
 
@@ -17,8 +17,10 @@ export async function generateMetadata({ searchParams }: PageProps<"/s">): Promi
 }
 
 export default async function SearchPage({ searchParams }: PageProps<"/s">) {
-  const params = parseSearchParams(await searchParams);
-  const result = searchProducts(getAllProducts(), params);
+  const requested = parseSearchParams(await searchParams);
+  // If only the filters (e.g. a department left over from an earlier search) empty the
+  // results, show the keyword's results everywhere instead, with a notice.
+  const { result, params, relaxed } = searchWithFallback(getAllProducts(), requested);
   const sort = params.sort ?? "featured";
 
   const from = result.total === 0 ? 0 : (result.page - 1) * result.pageSize + 1;
@@ -58,6 +60,19 @@ export default async function SearchPage({ searchParams }: PageProps<"/s">) {
         </aside>
 
         <div className="min-w-0 flex-1">
+          {relaxed && (
+            <div role="status" className="mb-5 rounded-lg border border-[#fbd8b4] bg-[#fcf5ee] px-4 py-3 text-sm">
+              No results for <b>&quot;{requested.k}&quot;</b>{" "}
+              {requested.c ? (
+                <>
+                  in <b>{filterLabel(requested.c)}</b>
+                </>
+              ) : (
+                "with your selected filters"
+              )}
+              . Showing results from <b>All Departments</b> instead.
+            </div>
+          )}
           {params.k && result.facets.categories.length > 1 && !params.c && (
             <nav aria-label="Narrow your search" className="mb-5">
               <h2 className="mb-2 text-lg font-bold">Narrow your search</h2>

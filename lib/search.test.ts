@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { searchProducts, parseSearchParams } from "./search";
+import { searchProducts, searchWithFallback, parseSearchParams } from "./search";
 import type { Product } from "./types";
 
 function make(overrides: Partial<Product> & { id: number }): Product {
@@ -95,6 +95,27 @@ describe("searchProducts", () => {
     const r = searchProducts(catalog, { k: "shoes", brands: ["Nike"] });
     expect(r.total).toBe(1);
     expect(r.facets.brands.map((b) => b.name).sort()).toEqual(["Nike", "Pampi"]);
+  });
+});
+
+describe("searchWithFallback", () => {
+  it("drops filters when they alone cause zero results", () => {
+    const { result, relaxed, params } = searchWithFallback(catalog, { k: "shoes", c: "mens-shirts", sort: "price-asc" });
+    expect(relaxed).toBe(true);
+    expect(result.items.map((p) => p.id)).toEqual([2, 1]);
+    expect(params).toEqual({ k: "shoes", sort: "price-asc" });
+  });
+
+  it("keeps filtered results when there are any", () => {
+    const { result, relaxed } = searchWithFallback(catalog, { k: "shoes", c: "mens-shoes" });
+    expect(relaxed).toBe(false);
+    expect(result.total).toBe(1);
+  });
+
+  it("does not relax when the keyword itself matches nothing", () => {
+    const { result, relaxed } = searchWithFallback(catalog, { k: "zzz", c: "mens-shirts" });
+    expect(relaxed).toBe(false);
+    expect(result.total).toBe(0);
   });
 });
 
