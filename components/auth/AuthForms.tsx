@@ -30,7 +30,7 @@ function useAfterAuth() {
 
 function ErrorBox({ message }: { message: string }) {
   return (
-    <div role="alert" className="mb-4 flex gap-3 rounded-lg border border-amz-deal p-4 shadow-[inset_0_0_0_4px_#fcf4f4]">
+    <div role="alert" className="mb-4 flex gap-3 rounded-2xl border border-amz-deal bg-white p-4 shadow-[inset_0_0_0_4px_#fcf4f4]">
       <CircleAlert className="shrink-0 text-amz-deal" />
       <div>
         <p className="font-bold text-amz-deal">There was a problem</p>
@@ -61,9 +61,9 @@ function DemoButton() {
   });
 
   return (
-    <div className="mt-5 rounded-lg bg-[#f0f7f8] p-4 text-center">
+    <div className="mt-5 rounded-xl bg-sky p-4 text-center ring-1 ring-[#d6e4f5]">
       <p className="flex items-center justify-center gap-1.5 text-sm font-bold">
-        <Sparkles size={16} className="text-[#e47911]" /> Reviewing this project?
+        <Sparkles size={16} className="text-brand" /> Reviewing this project?
       </p>
       <p className="mt-1 text-xs text-amz-muted">Skip sign-up and explore with a pre-filled demo account.</p>
       <Button variant="dark" size="sm" className="mt-3 w-full" onClick={run} disabled={busy}>
@@ -100,28 +100,28 @@ export function SignInForm() {
   return (
     <>
       {formError && <ErrorBox message={formError} />}
-      <div className="rounded-lg border border-amz-border p-6">
-        <h1 className="text-[28px] font-normal leading-tight">Sign in</h1>
+      <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
+        <h1 className="text-[28px] font-extrabold leading-tight tracking-tight">Sign in</h1>
         <form onSubmit={onSubmit} noValidate className="mt-4 space-y-3.5">
           <Field label="Email" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} error={errors.email} autoFocus />
           <Field label="Password" name="password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} error={errors.password} />
-          <Button type="submit" size="sm" className="w-full" disabled={busy}>
+          <Button type="submit" variant="brand" className="w-full" disabled={busy}>
             {busy ? "Signing in…" : "Continue"}
           </Button>
         </form>
         <p className="mt-4 text-xs">
-          By continuing, you agree to amazon.clone&apos;s <span className="text-amz-link">Conditions of Use</span> and{" "}
-          <span className="text-amz-link">Privacy Notice</span>.
+          By continuing, you agree to amazon.clone&apos;s <span className="text-brand">Conditions of Use</span> and{" "}
+          <span className="text-brand">Privacy Notice</span>.
         </p>
         <DemoButton />
       </div>
       <div className="relative mt-6 text-center text-xs text-amz-muted">
-        <span className="absolute inset-x-0 top-1/2 h-px bg-amz-border" />
-        <span className="relative bg-white px-2">New to amazon.clone?</span>
+        <span className="absolute inset-x-0 top-1/2 h-px bg-[#d6e4f5]" />
+        <span className="relative bg-sky px-2">New to amazon.clone?</span>
       </div>
       <Link
         href={`/register${params.get("next") ? `?next=${encodeURIComponent(params.get("next")!)}` : ""}`}
-        className="mt-3 block rounded-full border border-amz-border py-1.5 text-center text-[13px] shadow-sm hover:bg-gray-50"
+        className="mt-3 block rounded-full bg-white py-2 text-center text-[13px] font-medium ring-1 ring-[#bcd6f7] hover:bg-sky-tint hover:text-brand"
       >
         Create your amazon.clone account
       </Link>
@@ -158,26 +158,26 @@ export function RegisterForm() {
   return (
     <>
       {formError && <ErrorBox message={formError} />}
-      <div className="rounded-lg border border-amz-border p-6">
-        <h1 className="text-[28px] font-normal leading-tight">Create account</h1>
+      <div className="rounded-2xl bg-white shadow-[0_2px_12px_rgba(11,36,71,0.07)] p-6">
+        <h1 className="text-[28px] font-extrabold leading-tight tracking-tight">Create account</h1>
         <form onSubmit={onSubmit} noValidate className="mt-4 space-y-3.5">
           <Field label="Your name" name="name" autoComplete="name" placeholder="First and last name" value={form.name} onChange={set("name")} error={errors.name} autoFocus />
           <Field label="Email" name="email" type="email" autoComplete="email" value={form.email} onChange={set("email")} error={errors.email} />
           <Field label="Password" name="password" type="password" autoComplete="new-password" placeholder="At least 6 characters" hint="Passwords must be at least 6 characters." value={form.password} onChange={set("password")} error={errors.password} />
           <Field label="Re-enter password" name="confirm" type="password" autoComplete="new-password" value={form.confirm} onChange={set("confirm")} error={errors.confirm} />
-          <Button type="submit" size="sm" className="w-full" disabled={busy}>
+          <Button type="submit" variant="brand" className="w-full" disabled={busy}>
             {busy ? "Creating account…" : "Create your amazon.clone account"}
           </Button>
         </form>
         <p className="mt-4 text-xs text-amz-muted">
           This is a demo store: your account is saved only in this browser. Please don&apos;t reuse a real password.
         </p>
-        <hr className="my-4 border-amz-border" />
+        <hr className="my-4 border-[#e3ecf7]" />
         <p className="text-[13px]">
           Already have an account?{" "}
           <Link
             href={`/signin${params.get("next") ? `?next=${encodeURIComponent(params.get("next")!)}` : ""}`}
-            className="text-amz-link hover:text-amz-link-hover hover:underline"
+            className="font-medium text-brand hover:text-brand-hover hover:underline"
           >
             Sign in ›
           </Link>

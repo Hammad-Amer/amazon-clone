@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Secure checkout" };
 
 export default function CheckoutPage() {
   return (
-    <div className="min-h-full bg-[#f0f2f2]">
+    <div className="min-h-full bg-sky">
       <div className="flex items-center bg-amz-header pl-2">
         <Logo />
         <div className="flex-1">

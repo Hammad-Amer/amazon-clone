@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
-/** Labelled input with Amazon's inset style and an inline error message. */
+/** Labelled input with a soft rounded box, blue focus ring and an inline error message. */
 export function Field({
   label,
   error,
@@ -21,9 +21,9 @@ export function Field({
         aria-invalid={!!error}
         aria-describedby={error ? `${inputId}-error` : undefined}
         className={cn(
-          "h-[31px] w-full rounded-[3px] border px-2 text-[13px] shadow-[0_1px_0_rgba(255,255,255,0.5),inset_0_1px_0_rgba(0,0,0,0.07)] outline-none",
-          "focus:border-[#e77600] focus:shadow-[0_0_3px_2px_rgba(228,121,17,0.5)]",
-          error ? "border-amz-deal" : "border-[#a6a6a6] border-t-[#949494]",
+          "h-9 w-full rounded-lg border bg-white px-3 text-sm outline-none transition-shadow",
+          "focus:border-brand focus:shadow-[0_0_0_3px_rgba(47,128,237,0.2)]",
+          error ? "border-amz-deal" : "border-[#c9d6e6]",
         )}
         {...props}
       />
