@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+
+  --color-amz-header: #131921;
+  --color-amz-nav: #232f3e;
+  --color-amz-footer: #232f3e;
+  --color-amz-footer-dark: #131a22;
+  --color-amz-backtop: #37475a;
+  --color-amz-bg: #e3e6e6;
+  --color-amz-search: #febd69;
+  --color-amz-search-hover: #f3a847;
+  --color-amz-yellow: #ffd814;
+  --color-amz-yellow-hover: #f7ca00;
+  --color-amz-orange: #ffa41c;
+  --color-amz-orange-hover: #fa8900;
+  --color-amz-link: #007185;
+  --color-amz-link-hover: #c7511f;
+  --color-amz-deal: #cc0c39;
+  --color-amz-star: #de7921;
+  --color-amz-green: #007600;
+  --color-amz-text: #0f1111;
+  --color-amz-muted: #565959;
+  --color-amz-border: #d5d9d9;
+  --color-amz-focus: #007185;
+
+  --animate-slide-in: slide-in 0.25s ease-out;
+  --animate-fade-in: fade-in 0.2s ease-out;
+
+  @keyframes slide-in {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-amz-bg);
+  color: var(--color-amz-text);
+}
+
+/* Amazon-style focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-amz-focus);
+  outline-offset: 2px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
