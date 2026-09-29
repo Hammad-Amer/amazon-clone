@@ -70,11 +70,13 @@ export function Modal({
   onClose,
   title,
   children,
+  size = "sm",
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  size?: "sm" | "lg";
 }) {
   useEffect(() => {
     if (!open) return;
@@ -87,14 +89,19 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={title}>
       <div className="absolute inset-0 bg-black/60 animate-fade-in" onClick={onClose} />
-      <div className="relative w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-2xl animate-fade-in">
+      <div
+        className={cn(
+          "relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl animate-fade-in",
+          size === "lg" ? "max-w-xl" : "max-w-sm",
+        )}
+      >
         <div className="flex items-center justify-between border-b border-amz-border bg-[#f0f2f2] px-5 py-3">
           <h2 className="font-bold">{title}</h2>
           <button onClick={onClose} aria-label="Close" className="text-amz-muted hover:text-amz-text">
             <X size={20} />
           </button>
         </div>
-        <div className="p-5">{children}</div>
+        <div className="overflow-y-auto p-5">{children}</div>
       </div>
     </div>
   );

@@ -8,9 +8,9 @@ import { CompareTable } from "@/components/product/CompareTable";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ListPrice, Price } from "@/components/product/Price";
 import { Stars } from "@/components/product/Rating";
-import { Reviews } from "@/components/product/Reviews";
+import { LiveRating, Reviews } from "@/components/product/Reviews";
 import { categoryLabel, departmentOf } from "@/lib/departments";
-import { boughtLabel, formatCount } from "@/lib/format";
+import { boughtLabel } from "@/lib/format";
 import { getAllProducts, getBoughtTogether, getCompareSet, getProduct, getRelated, toSummary } from "@/lib/products";
 import type { Product } from "@/lib/types";
 
@@ -92,13 +92,7 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
             </Link>
           )}
           <h1 className="text-2xl font-normal leading-tight text-amz-text">{product.title}</h1>
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
-            <span>{product.rating.toFixed(1)}</span>
-            <Stars rating={product.rating} />
-            <a href="#reviews" className="text-amz-link hover:text-amz-link-hover hover:underline">
-              {formatCount(product.ratingCount)} ratings
-            </a>
-          </div>
+          <LiveRating productId={product.id} rating={product.rating} ratingCount={product.ratingCount} />
           {bought && <p className="mt-1 text-sm text-amz-muted">{bought}</p>}
           {product.badge && (
             <span className="mt-2 inline-block rounded-sm bg-[#e47911] px-2 py-0.5 text-xs text-white">
@@ -213,7 +207,7 @@ export default async function ProductPage({ params }: PageProps<"/dp/[id]">) {
           </table>
         </section>
         <hr className="border-amz-border" />
-        <Reviews productId={product.id} rating={product.rating} ratingCount={product.ratingCount} reviews={product.reviews} />
+        <Reviews productId={product.id} productTitle={product.title} rating={product.rating} ratingCount={product.ratingCount} reviews={product.reviews} />
       </div>
     </div>
   );

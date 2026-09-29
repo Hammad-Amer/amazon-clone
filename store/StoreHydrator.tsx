@@ -5,8 +5,9 @@ import { useAuth } from "./auth";
 import { useCart } from "./cart";
 import { useHistory, useHydration, useLocation, useWishlist } from "./misc";
 import { useOrders } from "./orders";
+import { useReviews } from "./reviews";
 
-const stores = [useCart, useAuth, useOrders, useHistory, useWishlist, useLocation];
+const stores = [useCart, useAuth, useOrders, useHistory, useWishlist, useLocation, useReviews];
 
 /**
  * Stores use `skipHydration` so server HTML and the first client render match;

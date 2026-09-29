@@ -1,101 +1,249 @@
+"use client";
+
 import { CircleUserRound } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Drawer";
+import { cn } from "@/lib/cn";
 import { formatCount } from "@/lib/format";
+import { combineRatings, isVerifiedPurchase, newReviewId, seedHelpfulCount, type UserReview } from "@/lib/reviews";
 import type { Review } from "@/lib/types";
+import { useAuth } from "@/store/auth";
+import { useOrders } from "@/store/orders";
+import { useReviews } from "@/store/reviews";
+import { useHydrated } from "@/store/StoreHydrator";
 import { Stars } from "./Rating";
+import { ReviewForm, type ReviewValues } from "./ReviewForm";
 
-/**
- * A plausible 5→1 star distribution centred on the average rating.
- * (DummyJSON gives an average and only three written reviews.)
- */
-export function ratingDistribution(rating: number): number[] {
-  const weights = [5, 4, 3, 2, 1].map((star) => Math.exp(-((star - rating) ** 2) / 1.1) + (star === 5 ? 0.15 : 0));
-  const sum = weights.reduce((a, b) => a + b, 0);
-  const pct = weights.map((w) => Math.round((w / sum) * 100));
-  pct[0] += 100 - pct.reduce((a, b) => a + b, 0); // make it add up to exactly 100
-  return pct;
+type Entry = {
+  key: string;
+  name: string;
+  rating: number;
+  title: string;
+  body: string;
+  date: string;
+  verified: boolean;
+  helpfulBase: number;
+  own?: UserReview;
+};
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+function seedBody(r: Review): string {
+  if (r.rating >= 4) return `${r.comment} Exactly as described and arrived quickly. Would buy again.`;
+  if (r.rating === 3) return `${r.comment} It does the job, but I expected a little more for the price.`;
+  return `${r.comment} Didn't live up to the description for me.`;
+}
+
+/** Reviews written in this browser for a product. Empty until stores rehydrate, so SSR matches. */
+function useProductReviews(productId: number): UserReview[] {
+  const hydrated = useHydrated();
+  const all = useReviews((s) => s.reviews);
+  return hydrated ? all.filter((r) => r.productId === productId) : [];
+}
+
+/** The rating line under the product title, kept in step with reviews written here. */
+export function LiveRating({ productId, rating, ratingCount }: { productId: number; rating: number; ratingCount: number }) {
+  const mine = useProductReviews(productId);
+  const stats = combineRatings(rating, ratingCount, mine.map((r) => r.rating));
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
+      <span>{stats.rating.toFixed(1)}</span>
+      <Stars rating={stats.rating} />
+      <a href="#reviews" className="text-amz-link hover:text-amz-link-hover hover:underline">
+        {formatCount(stats.count)} ratings
+      </a>
+    </div>
+  );
 }
 
 export function Reviews({
   productId,
+  productTitle,
   rating,
   ratingCount,
   reviews,
 }: {
   productId: number;
+  productTitle: string;
   rating: number;
   ratingCount: number;
   reviews: Review[];
 }) {
-  const dist = ratingDistribution(rating);
+  const user = useAuth((s) => s.user);
+  const orders = useOrders((s) => s.orders);
+  const { upsert, remove, helpful, markHelpful } = useReviews();
+  const local = useProductReviews(productId);
+  const [open, setOpen] = useState(false);
+  const [starFilter, setStarFilter] = useState<number | null>(null);
+
+  const stats = combineRatings(rating, ratingCount, local.map((r) => r.rating));
+  const own = user ? local.find((r) => r.email === user.email) : undefined;
+
+  const entries: Entry[] = [
+    ...(own ? [own] : []),
+    ...local.filter((r) => r !== own).sort((a, b) => b.date.localeCompare(a.date)),
+  ].map((r) => ({ key: r.id, name: r.name, rating: r.rating, title: r.title, body: r.body, date: r.date, verified: r.verified, helpfulBase: 0, own: r === own ? r : undefined }));
+  reviews.forEach((r, i) =>
+    entries.push({ key: `seed-${productId}-${i}`, name: r.reviewerName, rating: r.rating, title: r.comment, body: seedBody(r), date: r.date, verified: true, helpfulBase: seedHelpfulCount(productId, i) }),
+  );
+  const shown = starFilter ? entries.filter((e) => Math.round(e.rating) === starFilter) : entries;
+
+  const submit = (v: ReviewValues) => {
+    if (!user) return;
+    const review: UserReview = {
+      id: own?.id ?? newReviewId(),
+      productId,
+      email: user.email,
+      name: user.name,
+      ...v,
+      date: new Date().toISOString(),
+      verified: isVerifiedPurchase(orders, user.email, productId),
+    };
+    upsert(review);
+    setOpen(false);
+    setStarFilter(null);
+    toast.success(own ? "Your review has been updated" : "Thanks! Your review has been posted");
+    setTimeout(() => document.getElementById(`review-${review.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+  };
+
+  const deleteOwn = (r: UserReview) => {
+    remove(r.id);
+    toast("Review deleted", { action: { label: "Undo", onClick: () => upsert(r) } });
+  };
+
   return (
-    <section id="reviews" className="grid gap-8 md:grid-cols-[300px_1fr]">
+    <section id="reviews" className="grid scroll-mt-4 gap-8 md:grid-cols-[300px_1fr]">
       <div>
         <h2 className="text-2xl font-bold">Customer reviews</h2>
         <div className="mt-2 flex items-center gap-2">
-          <Stars rating={rating} size={20} />
-          <span className="text-lg">{rating.toFixed(1)} out of 5</span>
+          <Stars rating={stats.rating} size={20} />
+          <span className="text-lg">{stats.rating.toFixed(1)} out of 5</span>
         </div>
-        <p className="mt-1 text-sm text-amz-muted">{formatCount(ratingCount)} global ratings</p>
-        <table className="mt-4 w-full text-sm">
-          <tbody>
-            {dist.map((pct, i) => (
-              <tr key={i}>
-                <td className="w-14 whitespace-nowrap py-1.5 text-amz-link">{5 - i} star</td>
-                <td className="px-3">
-                  <div
-                    className="h-5 w-full overflow-hidden rounded border border-[#d5d9d9] bg-[#f0f2f2] shadow-inner"
-                    role="img"
-                    aria-label={`${pct}% of reviews have ${5 - i} stars`}
-                  >
-                    <div className="h-full bg-[#de7921]" style={{ width: `${pct}%` }} />
-                  </div>
-                </td>
-                <td className="w-10 text-right text-amz-link">{pct}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <p className="mt-1 text-sm text-amz-muted">{formatCount(stats.count)} global ratings</p>
+        <ul className="mt-4 text-sm">
+          {stats.distribution.map((pct, i) => {
+              const star = 5 - i;
+              const active = starFilter === star;
+              return (
+                <li key={star} className="py-0.5">
+                    <button
+                      type="button"
+                      onClick={() => setStarFilter(active ? null : star)}
+                      aria-pressed={active}
+                      aria-label={`${pct}% of reviews have ${star} stars. ${active ? "Show all reviews" : `Show ${star} star reviews`}`}
+                      className={cn(
+                        "group flex w-full items-center rounded py-1 text-left",
+                        active && "bg-[#f0f8ff] ring-1 ring-amz-link",
+                      )}
+                    >
+                      <span className="w-14 shrink-0 whitespace-nowrap pl-1 text-amz-link group-hover:underline">{star} star</span>
+                      <span className="flex-1 px-3">
+                        <span className="block h-5 w-full overflow-hidden rounded border border-[#d5d9d9] bg-[#f0f2f2] shadow-inner group-hover:border-[#de7921]">
+                          <span className="block h-full bg-[#de7921]" style={{ width: `${pct}%` }} />
+                        </span>
+                      </span>
+                      <span className="w-10 shrink-0 pr-1 text-right text-amz-link">{pct}%</span>
+                    </button>
+                </li>
+              );
+            })}
+        </ul>
         <hr className="my-6 border-amz-border" />
         <h3 className="text-lg font-bold">Review this product</h3>
         <p className="mt-1 text-sm">Share your thoughts with other customers</p>
-        <Link
-          href={`/dp/${productId}#reviews`}
-          className="mt-3 block rounded-full border border-amz-border py-1.5 text-center text-sm shadow-sm hover:bg-gray-50"
-        >
-          Write a customer review
-        </Link>
+        {user ? (
+          <Button variant="outline" className="mt-3 w-full" onClick={() => setOpen(true)}>
+            {own ? "Edit your review" : "Write a customer review"}
+          </Button>
+        ) : (
+          <Link
+            href={`/signin?next=${encodeURIComponent(`/dp/${productId}`)}`}
+            className="mt-3 block rounded-full border border-amz-border py-1.5 text-center text-sm shadow-sm hover:bg-gray-50"
+          >
+            Write a customer review
+          </Link>
+        )}
       </div>
 
       <div>
         <h3 className="text-lg font-bold">Top reviews from the United States</h3>
-        <ul className="mt-4 space-y-6">
-          {reviews.map((r, i) => (
-            <li key={i}>
-              <div className="flex items-center gap-2 text-[13px]">
-                <CircleUserRound size={30} strokeWidth={1.2} className="text-[#8d9096]" />
-                {r.reviewerName}
-              </div>
-              <div className="mt-1 flex items-center gap-2">
-                <Stars rating={r.rating} size={16} />
-                <span className="text-sm font-bold">{r.comment}</span>
-              </div>
-              <p className="mt-1 text-[13px] text-amz-muted">
-                Reviewed in the United States on{" "}
-                {new Date(r.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-              </p>
-              <p className="text-xs font-bold text-[#c45500]">Verified Purchase</p>
-              <p className="mt-1 text-sm">
-                {r.rating >= 4
-                  ? `${r.comment} Exactly as described and arrived quickly. Would buy again.`
-                  : r.rating === 3
-                    ? `${r.comment} It does the job, but I expected a little more for the price.`
-                    : `${r.comment} Didn't live up to the description for me.`}
-              </p>
-            </li>
-          ))}
-        </ul>
+        {starFilter && (
+          <p className="mt-2 text-sm" role="status">
+            Showing {shown.length} review{shown.length === 1 ? "" : "s"} with {starFilter} star{starFilter === 1 ? "" : "s"} ·{" "}
+            <button type="button" onClick={() => setStarFilter(null)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+              Clear filter
+            </button>
+          </p>
+        )}
+        {shown.length === 0 ? (
+          <p className="mt-4 text-sm text-amz-muted">No {starFilter} star reviews yet.</p>
+        ) : (
+          <ul className="mt-4 space-y-6">
+            {shown.map((e) => {
+              const marked = !!helpful[e.key];
+              const count = e.helpfulBase + (marked ? 1 : 0);
+              return (
+                <li key={e.key} id={e.own ? `review-${e.own.id}` : undefined} className={cn(e.own && "scroll-mt-24 rounded-lg bg-[#f7fafa] p-3 ring-1 ring-amz-border")}>
+                  <div className="flex items-center gap-2 text-[13px]">
+                    <CircleUserRound size={30} strokeWidth={1.2} className="text-[#8d9096]" />
+                    {e.name}
+                    {e.own && <span className="rounded bg-amz-nav px-1.5 py-0.5 text-[11px] text-white">Your review</span>}
+                  </div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <Stars rating={e.rating} size={16} />
+                    <span className="text-sm font-bold">{e.title}</span>
+                  </div>
+                  <p className="mt-1 text-[13px] text-amz-muted">Reviewed in the United States on {formatDate(e.date)}</p>
+                  {e.verified && <p className="text-xs font-bold text-[#c45500]">Verified Purchase</p>}
+                  <p className="mt-1 whitespace-pre-line text-sm">{e.body}</p>
+                  {count > 0 && (
+                    <p className="mt-2 text-[13px] text-amz-muted">
+                      {count === 1 ? "One person" : `${count} people`} found this helpful
+                    </p>
+                  )}
+                  <div className="mt-2 flex items-center gap-3 text-[13px]">
+                    {e.own ? (
+                      <>
+                        <button type="button" onClick={() => setOpen(true)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+                          Edit
+                        </button>
+                        <span className="text-amz-border">|</span>
+                        <button type="button" onClick={() => deleteOwn(e.own!)} className="text-amz-link hover:text-amz-link-hover hover:underline">
+                          Delete
+                        </button>
+                      </>
+                    ) : marked ? (
+                      <span className="text-amz-green">✓ Thank you for your feedback.</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => markHelpful(e.key)}
+                        className="rounded-full border border-amz-border px-5 py-1 shadow-sm hover:bg-gray-50"
+                      >
+                        Helpful
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
+
+      <Modal open={open} onClose={() => setOpen(false)} title={own ? "Edit your review" : "Create review"} size="lg">
+        <p className="mb-4 line-clamp-2 text-sm text-amz-muted">{productTitle}</p>
+        <ReviewForm
+          key={own?.id ?? "new"}
+          initial={own && { rating: own.rating, title: own.title, body: own.body }}
+          onSubmit={submit}
+          onCancel={() => setOpen(false)}
+        />
+      </Modal>
     </section>
   );
 }
