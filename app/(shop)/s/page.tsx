@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ProductCard } from "@/components/product/ProductCard";
+import { AppliedFilters } from "@/components/search/AppliedFilters";
 import { FilterSidebar } from "@/components/search/FilterSidebar";
 import { MobileFilters, SortSelect } from "@/components/search/SearchControls";
 import { ButtonLink } from "@/components/ui/Button";
 import { filterLabel } from "@/lib/departments";
 import { getAllProducts, getBestSellers, toSummary } from "@/lib/products";
+import { withParsedQuery } from "@/lib/query";
 import { SORT_OPTIONS, parseSearchParams, searchWithFallback, type SortKey } from "@/lib/search";
 import { searchHref } from "@/lib/url";
 import { cn } from "@/lib/cn";
@@ -18,6 +21,11 @@ export async function generateMetadata({ searchParams }: PageProps<"/s">): Promi
 
 export default async function SearchPage({ searchParams }: PageProps<"/s">) {
   const requested = parseSearchParams(await searchParams);
+  // Plain-English queries ("shoes under 50") become real filters with a canonical URL, so
+  // chips, the sidebar, sharing and the back button all work as for hand-picked filters.
+  const parsed = withParsedQuery(requested);
+  if (parsed) redirect(searchHref(parsed));
+
   // If only the filters (e.g. a department left over from an earlier search) empty the
   // results, show the keyword's results everywhere instead, with a notice.
   const { result, params, relaxed } = searchWithFallback(getAllProducts(), requested);
@@ -60,6 +68,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/s">) {
         </aside>
 
         <div className="min-w-0 flex-1">
+          <AppliedFilters params={params} />
           {relaxed && (
             <div role="status" className="mb-5 rounded-lg border border-[#fbd8b4] bg-[#fcf5ee] px-4 py-3 text-sm">
               No results for <b>&quot;{requested.k}&quot;</b>{" "}

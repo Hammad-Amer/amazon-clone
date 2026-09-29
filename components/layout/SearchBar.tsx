@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { DEPARTMENTS, departmentOf, filterLabel } from "@/lib/departments";
 import { cn } from "@/lib/cn";
+import { withParsedQuery } from "@/lib/query";
+import { searchHref as buildSearchHref } from "@/lib/url";
 import type { Suggestion } from "@/lib/types";
 
 const RECENT_KEY = "amz-recent-searches";
@@ -63,10 +65,10 @@ function SearchForm({ initialK, initialC }: { initialK: string; initialC: string
   }, []);
 
   const searchHref = (text: string, cat = c) => {
-    const params = new URLSearchParams();
-    if (text.trim()) params.set("k", text.trim());
-    if (cat) params.set("c", cat);
-    return `/s?${params}`;
+    const params = { k: text.trim() || undefined, c: cat || undefined };
+    // Go straight to the parsed URL ("shoes under 50" -> k=shoes&max=50); the results
+    // page does the same for links and no-JS submits.
+    return buildSearchHref(withParsedQuery(params) ?? params);
   };
 
   const go = (href: string, text?: string) => {
