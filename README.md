@@ -15,6 +15,8 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 - Deliver-to location picker, shown in the header and buy box
 
 **Search & filter** (`/s`)
+- **Plain-English search:** "shoes under 50", "phones 4 stars", "cheapest laptops", "watches on sale" or "sunglasses between 20 and 60" become real price, rating, deals and sort filters
+- Active filters shown as removable chips, with "Clear all"
 - Relevance search (word-prefix matching so "men" doesn't match "women", synonyms such as "clothes")
 - Filters for department/category, brand, customer rating, price buckets and custom range, and deals
 - Sorting (featured, price, rating, newest, best sellers) and pagination
@@ -24,7 +26,11 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 - Image gallery with thumbnail rail and hover zoom (swipe on mobile)
 - Price with discount and list price, stock warnings, delivery dates, quantity
 - Buy box: **Add to cart**, **Buy Now** (straight to checkout), Add to List
-- Specs table, "About this item", rating histogram, customer reviews, related products
+- **Frequently bought together:** tick the add-ons you want, see the total, and add them all in one click
+- **Compare with similar items:** a side-by-side table of price, rating, shipping, stock, weight and warranty
+- **Write a review:** star picker with validation and a "Verified Purchase" label if you ordered the item. The average and histogram update live, and you can edit or delete (with undo)
+- Filter reviews by clicking a histogram row, and vote reviews "Helpful"
+- Specs table, "About this item", related products
 
 **Cart → checkout → orders**
 - "Added to cart" confirmation page with recommendations
@@ -37,7 +43,7 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 **Quality**
 - Fully responsive: desktop layout matches Amazon, plus a dedicated mobile header, drawers and stacked buy box
 - Loading skeletons, empty states, custom 404, keyboard-accessible menus and dialogs, visible focus rings
-- Unit tests (Vitest) for search, cart math, payment validation and order logic
+- Unit tests (Vitest) for search, query parsing, cart math, payment validation, order logic and review ratings
 
 ## Tech & architecture
 
@@ -46,14 +52,14 @@ An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App
 | Framework | Next.js 16 App Router, React 19, TypeScript |
 | Styling | Tailwind CSS v4 with Amazon design tokens in `app/globals.css` |
 | Data | [DummyJSON](https://dummyjson.com) catalog snapshotted once into `data/products.json` (`npm run fetch-products`); no runtime API calls |
-| State | Zustand stores persisted to `localStorage` (cart, auth, orders, history, wishlist, location) |
+| State | Zustand stores persisted to `localStorage` (cart, auth, orders, history, wishlist, location, reviews) |
 | Other | `next/image`, embla-carousel, lucide-react, sonner |
 
 ```
 app/(shop)/      pages with the full header/footer: home, /s, /dp/[id], /cart, /orders, /deals, /wishlist
 app/(focus)/     distraction-free pages: /signin, /register, /checkout
 app/api/         suggest (autocomplete), products (by id), recommendations
-lib/             pure logic: search, cart, orders, payment, formatting (unit-tested)
+lib/             pure logic: search, query parsing, cart, orders, payment, reviews, formatting (unit-tested)
 store/           client state (Zustand + persist)
 components/      layout, home, product, search, cart, checkout, orders, ui
 ```
