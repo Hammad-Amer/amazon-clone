@@ -14,10 +14,10 @@ const PRICE_BUCKETS = [
   { label: "$500 & above", min: 500 },
 ];
 
-const linkCls = "text-sm text-amz-text hover:text-amz-link-hover";
+const linkCls = "text-sm text-amz-text hover:text-brand";
 
 function Heading({ children }: { children: React.ReactNode }) {
-  return <h3 className="mb-1.5 text-sm font-bold text-amz-text">{children}</h3>;
+  return <h3 className="mb-2 text-[13px] font-extrabold uppercase tracking-wider text-amz-nav">{children}</h3>;
 }
 
 function CheckLink({ href, checked, children }: { href: string; checked: boolean; children: React.ReactNode }) {
@@ -25,8 +25,8 @@ function CheckLink({ href, checked, children }: { href: string; checked: boolean
     <Link href={href} className={cn(linkCls, "flex items-center gap-2 py-0.5")} scroll={false} role="checkbox" aria-checked={checked}>
       <span
         className={cn(
-          "flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border",
-          checked ? "border-amz-link bg-amz-link text-white" : "border-[#888c8c] bg-white",
+          "flex h-4 w-4 shrink-0 items-center justify-center rounded border",
+          checked ? "border-brand bg-brand text-white" : "border-[#a9b8cc] bg-white",
         )}
       >
         {checked && <Check size={12} strokeWidth={3} />}
@@ -44,7 +44,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
   return (
     <div className="space-y-5">
       {hasFilters && (
-        <Link href={searchHref({ k: params.k, sort: params.sort })} className="text-sm text-amz-link hover:text-amz-link-hover hover:underline">
+        <Link href={searchHref({ k: params.k, sort: params.sort })} className="text-sm font-medium text-brand hover:text-brand-hover hover:underline">
           Clear all filters
         </Link>
       )}
@@ -66,7 +66,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
               </Link>
             </li>
           )}
-          {params.c && <li className="pl-3 text-sm font-bold">{filterLabel(params.c)}</li>}
+          {params.c && <li className="pl-3 text-sm font-bold text-brand">{filterLabel(params.c)}</li>}
           {(activeDept && params.c === activeDept.slug
             ? result.facets.categories.filter((f) => activeDept.categories.includes(f.slug))
             : params.c
@@ -89,7 +89,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
             <li key={r}>
               <Link
                 href={searchHref(params, { rating: params.rating === r ? undefined : r })}
-                className={cn(linkCls, "flex items-center gap-1", params.rating === r && "font-bold")}
+                className={cn(linkCls, "-mx-2 flex items-center gap-1 rounded-lg px-2 py-0.5", params.rating === r && "bg-sky-tint font-bold text-brand")}
                 aria-current={params.rating === r}
               >
                 <Stars rating={r} size={18} /> <span>&amp; Up</span>
@@ -125,7 +125,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
               <li key={p.label}>
                 <Link
                   href={searchHref(params, active ? { min: undefined, max: undefined } : { min: p.min, max: p.max })}
-                  className={cn(linkCls, active && "font-bold")}
+                  className={cn(linkCls, "-mx-2 block rounded-lg px-2 py-0.5", active && "bg-sky-tint font-bold text-brand")}
                 >
                   {p.label}
                 </Link>
@@ -148,7 +148,7 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
             defaultValue={params.min}
             placeholder="$ Min"
             aria-label="Minimum price"
-            className="w-[72px] rounded-md border border-[#888c8c] px-2 py-1 text-sm shadow-inner"
+            className="w-[72px] rounded-lg border border-[#c9d6e6] px-2 py-1 text-sm focus:border-brand"
           />
           <input
             name="max"
@@ -157,9 +157,9 @@ export function FilterSidebar({ params, result }: { params: SearchParams; result
             defaultValue={params.max}
             placeholder="$ Max"
             aria-label="Maximum price"
-            className="w-[72px] rounded-md border border-[#888c8c] px-2 py-1 text-sm shadow-inner"
+            className="w-[72px] rounded-lg border border-[#c9d6e6] px-2 py-1 text-sm focus:border-brand"
           />
-          <button className="rounded-md border border-amz-border bg-white px-2.5 py-1 text-sm shadow-sm hover:bg-gray-50">
+          <button className="rounded-full bg-brand px-3 py-1 text-sm font-medium text-white hover:bg-brand-hover">
             Go
           </button>
         </form>

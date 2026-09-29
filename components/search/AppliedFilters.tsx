@@ -34,14 +34,14 @@ export function AppliedFilters({ params }: { params: SearchParams }) {
           key={chip.label}
           href={chip.href}
           aria-label={`Remove filter: ${chip.label}`}
-          className="flex items-center gap-1.5 rounded-full border border-amz-border bg-[#f0f2f2] py-1 pl-3 pr-2 text-sm hover:border-[#888c8c] hover:bg-[#e3e6e6]"
+          className="flex items-center gap-1.5 rounded-full bg-sky-tint py-1 pl-3 pr-2 text-sm font-medium text-brand ring-1 ring-[#bcd6f7] transition-colors hover:bg-brand hover:text-white hover:ring-brand"
         >
           {chip.label}
-          <X size={14} className="text-amz-muted" />
+          <X size={14} strokeWidth={2.5} />
         </Link>
       ))}
       {chips.length > 1 && (
-        <Link href={searchHref({ k: params.k, sort: params.sort })} className="px-1 text-sm text-amz-link hover:text-amz-link-hover hover:underline">
+        <Link href={searchHref({ k: params.k, sort: params.sort })} className="px-1 text-sm font-medium text-brand hover:text-brand-hover hover:underline">
           Clear all
         </Link>
       )}

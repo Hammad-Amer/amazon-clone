@@ -7,6 +7,7 @@ const variants = {
   orange: "bg-amz-orange hover:bg-amz-orange-hover border-amz-orange-hover text-amz-text",
   outline: "bg-white hover:bg-gray-50 border-amz-border text-amz-text",
   dark: "bg-amz-nav hover:bg-amz-backtop border-amz-nav text-white",
+  brand: "bg-brand hover:bg-brand-hover border-brand text-white font-medium shadow-[0_2px_8px_rgba(47,128,237,0.28)]",
 };
 
 const sizes = {

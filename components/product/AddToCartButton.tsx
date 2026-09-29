@@ -42,11 +42,13 @@ export function AddToCartButton({
   qty = 1,
   className,
   size = "md",
+  variant,
 }: {
   product: ProductSummary;
   qty?: number;
   className?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "yellow" | "brand";
 }) {
   const add = useCart((s) => s.add);
   const outOfStock = product.stock <= 0;
@@ -54,6 +56,7 @@ export function AddToCartButton({
   return (
     <Button
       size={size}
+      variant={variant}
       disabled={outOfStock}
       className={cn("w-full", className)}
       onClick={() => {

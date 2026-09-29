@@ -9,10 +9,10 @@ import { SORT_OPTIONS, type SortKey } from "@/lib/search";
 export function SortSelect({ value, hrefs }: { value: SortKey; hrefs: Record<SortKey, string> }) {
   const router = useRouter();
   return (
-    <label className="relative flex items-center gap-1 rounded-lg border border-amz-border bg-[#f0f2f2] px-2.5 py-1 text-[13px] shadow-sm hover:bg-[#e3e6e6]">
+    <label className="relative flex items-center gap-1 rounded-full bg-sky-tint px-3 py-1.5 text-[13px] ring-1 ring-[#bcd6f7] hover:ring-brand">
       <span className="text-amz-text">Sort by:</span>
-      <span>{SORT_OPTIONS[value]}</span>
-      <ChevronDown size={14} />
+      <span className="font-bold text-brand">{SORT_OPTIONS[value]}</span>
+      <ChevronDown size={14} className="text-brand" />
       <select
         aria-label="Sort by"
         value={value}
@@ -36,9 +36,9 @@ export function MobileFilters({ count, children }: { count: number; children: Re
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-lg border border-amz-border bg-white px-3 py-1.5 text-sm shadow-sm lg:hidden"
+        className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm ring-1 ring-[#bcd6f7] lg:hidden"
       >
-        <SlidersHorizontal size={15} /> Filters{count > 0 && <span className="text-amz-link">({count})</span>}
+        <SlidersHorizontal size={15} /> Filters{count > 0 && <span className="font-bold text-brand">({count})</span>}
       </button>
       <Drawer open={open} onClose={() => setOpen(false)} label="Filters">
         <div className="flex items-center justify-between border-b border-amz-border px-5 py-3.5">
