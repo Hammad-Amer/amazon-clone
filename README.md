@@ -3,6 +3,9 @@
 An Amazon.com-style shopping experience built in 24 hours with **Next.js 16 (App Router)** and **Tailwind CSS v4**, deployed on Vercel.
 
 **Live demo:** https://amazon-clone-rouge-five.vercel.app
+
+**Walkthrough video:** [Watch on Google Drive](https://drive.google.com/file/d/1JjkJuJZ8uEeKsDDRr-fzDqDhrQ8PN17q/view?usp=sharing)
+
 **Quick look:** open the site → **Sign in → "Use demo account"**. The demo account has an order history, so personalized rows, _Your Orders_ and _Buy it again_ are populated immediately.
 
 ## Features
